@@ -1,7 +1,8 @@
 """
 Visualization Module for TI-Toolbox Research
 
-This module provides publication-ready plotting functions for the three main research questions:
+This module provides publication-ready plotting functions following best practices
+from top academic journals (Cell, Science, Nature) for the three main research questions:
 - Q1: Individualization effects (Individual vs Generalized models)
 - Q2: Mapping effects (Free vs Mapped optimization)  
 - Q3: Demographic factors and individual variability
@@ -18,39 +19,61 @@ from typing import Dict, List, Tuple, Optional
 import warnings
 warnings.filterwarnings('ignore')
 
-# Set publication-quality style
+# Set publication-quality style following Cell/Science/Nature standards
 plt.style.use('default')
-sns.set_palette("husl")
+
+# Define professional color palette (accessible and publication-ready)
+PROFESSIONAL_COLORS = {
+    'primary': '#2E3440',      # Dark gray (main text)
+    'secondary': '#5E81AC',    # Blue (primary data)
+    'accent': '#BF616A',       # Red (secondary data)
+    'tertiary': '#88C0D0',     # Light blue (tertiary data)
+    'quaternary': '#8FBCBB',   # Teal (quaternary data)
+    'success': '#A3BE8C',      # Green (positive effects)
+    'warning': '#EBCB8B',      # Yellow (cautions)
+    'error': '#BF616A',        # Red (errors/significance)
+    'neutral': '#D8DEE9',      # Light gray (backgrounds)
+    'white': '#FFFFFF',        # White
+    'black': '#2E3440'         # Black
+}
+
+# Define condition-specific colors
+CONDITION_COLORS = {
+    'ernie': PROFESSIONAL_COLORS['secondary'],
+    'mapped': PROFESSIONAL_COLORS['accent'],
+    'optimized': PROFESSIONAL_COLORS['tertiary'],
+    'individual': PROFESSIONAL_COLORS['secondary'],
+    'generalized': PROFESSIONAL_COLORS['accent'],
+    'free': PROFESSIONAL_COLORS['tertiary'],
+    'mapped_opt': PROFESSIONAL_COLORS['quaternary']
+}
 
 
 class PublicationPlotter:
     """
-    A class to create publication-ready plots for TI-Toolbox research.
+    A class to create publication-ready plots following Cell/Science/Nature standards.
     
     This class provides methods for creating consistent, high-quality
-    visualizations for all research questions.
+    visualizations for all research questions with professional styling.
     """
     
-    def __init__(self, figsize: Tuple[int, int] = (12, 8), dpi: int = 150):
+    def __init__(self, figsize: Tuple[int, int] = (12, 8), dpi: int = 300):
         """
         Initialize the PublicationPlotter.
         
         Args:
             figsize (Tuple[int, int]): Default figure size (width, height)
-            dpi (int): Figure resolution
+            dpi (int): Figure resolution (300 for publication quality)
         """
         self.figsize = figsize
         self.dpi = dpi
-        self.colors = {
-            'condition_a': '#2E86AB',  # Blue
-            'condition_b': '#A23B72',  # Red
-            'correlation': '#F18F01',  # Orange
-            'regression': '#C73E1D'    # Dark red
-        }
+        self.colors = PROFESSIONAL_COLORS
+        self.condition_colors = CONDITION_COLORS
     
     def setup_publication_style(self):
-        """Set up Nature publication-quality plotting style."""
+        """Set up Cell/Science/Nature publication-quality plotting style."""
         plt.rcParams.update({
+            # Typography - following journal standards
             'font.size': 8,
             'axes.titlesize': 9,
             'axes.labelsize': 8,
@@ -58,15 +81,52 @@ class PublicationPlotter:
             'ytick.labelsize': 7,
             'legend.fontsize': 7,
             'figure.titlesize': 10,
-            'lines.linewidth': 1,
-            'axes.linewidth': 0.5,
-            'axes.spines.top': False,
-            'axes.spines.right': False,
             'font.family': 'Arial',
+            'font.sans-serif': ['Arial', 'DejaVu Sans', 'Liberation Sans'],
             'mathtext.fontset': 'custom',
             'mathtext.rm': 'Arial',
             'mathtext.it': 'Arial:italic',
-            'mathtext.bf': 'Arial:bold'
+            'mathtext.bf': 'Arial:bold',
+            
+            # Line and marker properties
+            'lines.linewidth': 1.0,
+            'lines.markersize': 4,
+            'axes.linewidth': 0.8,
+            
+            # Spines and grid
+            'axes.spines.top': False,
+            'axes.spines.right': False,
+            'axes.spines.left': True,
+            'axes.spines.bottom': True,
+            'axes.grid': False,
+            
+            # Figure properties
+            'figure.facecolor': 'white',
+            'axes.facecolor': 'white',
+            'savefig.facecolor': 'white',
+            'savefig.bbox': 'tight',
+            'savefig.dpi': 300,
+            
+            # Tick properties
+            'xtick.major.size': 3,
+            'xtick.major.width': 0.8,
+            'xtick.minor.size': 1.5,
+            'xtick.minor.width': 0.5,
+            'ytick.major.size': 3,
+            'ytick.major.width': 0.8,
+            'ytick.minor.size': 1.5,
+            'ytick.minor.width': 0.5,
+            
+            # Legend properties
+            'legend.frameon': False,
+            'legend.fancybox': False,
+            'legend.shadow': False,
+            'legend.borderpad': 0.5,
+            'legend.labelspacing': 0.3,
+            'legend.handlelength': 1.5,
+            'legend.handleheight': 0.7,
+            'legend.handletextpad': 0.5,
+            'legend.columnspacing': 1.0,
         })
     
     def create_paired_comparison_plot(self, df: pd.DataFrame, 
@@ -74,7 +134,7 @@ class PublicationPlotter:
                                     title: str = "Paired Comparison Results",
                                     stats_results: Dict = None) -> plt.Figure:
         """
-        Create publication-ready paired comparison plots for Q1 and Q2.
+        Create publication-ready paired comparison plots following journal standards.
         
         Args:
             df (pd.DataFrame): Dataframe with 'condition' column and variables
@@ -92,9 +152,15 @@ class PublicationPlotter:
         variables = [var for var in variables if var in df.columns]
         
         self.setup_publication_style()
-        fig, axes = plt.subplots(1, len(variables), figsize=(2.5*len(variables), 2.0))
         
-        if len(variables) == 1:
+        # Calculate optimal figure size based on number of variables
+        n_vars = len(variables)
+        fig_width = max(5 * n_vars, 15)  # Increased width for better spacing
+        fig_height = 6  # Increased height for better spacing
+        
+        fig, axes = plt.subplots(1, n_vars, figsize=(fig_width, fig_height), dpi=self.dpi)
+        
+        if n_vars == 1:
             axes = [axes]
         
         for i, var in enumerate(variables):
@@ -108,33 +174,43 @@ class PublicationPlotter:
             means = pivot_df.mean()
             sems = pivot_df.sem()
             
-            # Create bar plot for means
+            # Create bar plot for means with professional styling
             x_pos = np.arange(len(condition_names))
-            bars = ax.bar(x_pos, means, yerr=sems, capsize=3, 
-                         color=[self.colors['condition_a'], self.colors['condition_b']],
-                         alpha=0.8, width=0.6)
+            bar_width = 0.6
             
-            # Add individual data points
+            # Use condition-specific colors
+            bar_colors = []
+            for condition in condition_names:
+                if 'ernie' in condition.lower():
+                    bar_colors.append(self.condition_colors['ernie'])
+                elif 'mapped' in condition.lower():
+                    bar_colors.append(self.condition_colors['mapped'])
+                elif 'opt' in condition.lower():
+                    bar_colors.append(self.condition_colors['optimized'])
+                elif 'individual' in condition.lower():
+                    bar_colors.append(self.condition_colors['individual'])
+                elif 'generalized' in condition.lower():
+                    bar_colors.append(self.condition_colors['generalized'])
+                else:
+                    bar_colors.append(self.colors['secondary'])
+            
+            bars = ax.bar(x_pos, means, yerr=sems, capsize=8,
+                         color=bar_colors, alpha=0.8, width=bar_width,
+                         edgecolor=self.colors['primary'], linewidth=1.2)
+            
+            # Add individual data points with professional styling
             for j, condition in enumerate(condition_names):
-                ax.scatter([j] * len(pivot_df), pivot_df[condition], 
-                          color='black', alpha=0.4, s=15, zorder=3)
+                # Add slight jitter for better visibility
+                jitter = np.random.normal(0, 0.02, len(pivot_df))
+                ax.scatter([j + jitter], pivot_df[condition], 
+                          color=self.colors['primary'], alpha=0.6, s=30, 
+                          zorder=3, edgecolors='white', linewidth=0.5)
             
             # Add connecting lines for paired data
             for _, row in pivot_df.iterrows():
                 ax.plot([0, 1], [row.iloc[0], row.iloc[1]], 
-                       color='gray', alpha=0.2, linewidth=0.5)
-            
-            # Add group average lines
-            for j, condition in enumerate(condition_names):
-                mean_val = means[j]
-                ax.axhline(y=mean_val, xmin=j-0.3, xmax=j+0.3, 
-                          color=self.colors['condition_a' if j == 0 else 'condition_b'], 
-                          linestyle='--', linewidth=1, alpha=0.8)
-                # Add mean value text
-                ax.text(j, mean_val + (ax.get_ylim()[1] - ax.get_ylim()[0]) * 0.02, 
-                       f'{mean_val:.3f}', ha='center', va='bottom', 
-                       fontsize=6, fontweight='bold', 
-                       color=self.colors['condition_a' if j == 0 else 'condition_b'])
+                       color=self.colors['neutral'], alpha=0.4, linewidth=1,
+                       zorder=1)
             
             # Add statistical information if available
             if stats_results and var in stats_results:
@@ -143,32 +219,85 @@ class PublicationPlotter:
                 cohens_d = stats['cohens_d']
                 percent_change = stats['percent_change']
                 
-                # Significance indicator
+                # Significance indicator with professional styling
                 if p_val < 0.001:
                     sig_text = "***"
+                    sig_color = self.colors['error']
                 elif p_val < 0.01:
                     sig_text = "**"
+                    sig_color = self.colors['error']
                 elif p_val < 0.05:
                     sig_text = "*"
+                    sig_color = self.colors['error']
                 else:
-                    sig_text = "ns"
+                    sig_text = "n.s."
+                    sig_color = self.colors['primary']
                 
-                # Add statistical text box
-                stats_text = f"p = {p_val:.3f}\nd = {cohens_d:.2f}\nΔ% = {percent_change:.1f}%\n{sig_text}"
-                ax.text(0.02, 0.98, stats_text, transform=ax.transAxes, 
-                       verticalalignment='top', fontsize=6,
-                       bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, pad=2))
+                # Add statistical annotation above bars with proper spacing
+                y_max = max(means) + max(sems)
+                y_range = ax.get_ylim()[1] - ax.get_ylim()[0]
+                y_text = y_max + y_range * 0.1
+                
+                # Add statistical text with improved spacing (no bracket lines)
+                ax.text(0.5, y_text + y_range * 0.03, sig_text, ha='center', va='bottom', 
+                       fontsize=14, fontweight='bold', color=sig_color)
+                ax.text(0.5, y_text + y_range * 0.10, f'p = {p_val:.3f}', ha='center', va='bottom', 
+                       fontsize=10, color=self.colors['primary'])
+                ax.text(0.5, y_text + y_range * 0.16, f'd = {cohens_d:.2f}', ha='center', va='bottom', 
+                       fontsize=10, fontweight='bold', color=self.colors['primary'])
+                ax.text(0.5, y_text + y_range * 0.22, f'{percent_change:+.1f}%', ha='center', va='bottom', 
+                       fontsize=10, fontweight='bold', color=self.colors['primary'])
             
-            # Customize plot
-            ax.set_xlabel('Condition')
-            ax.set_ylabel(f'{var} (V/m)')
-            ax.set_title(f'{var}')
+            # Customize plot with professional styling
+            ax.set_xlim(-0.5, len(condition_names) - 0.5)
+            ax.set_xlabel('Condition', fontsize=12, fontweight='bold', color=self.colors['primary'])
+            ax.set_ylabel(f'{var} (V/m)', fontsize=12, fontweight='bold', color=self.colors['primary'])
+            # Set title above the values
+            ax.set_title(f'{var}', fontsize=13, fontweight='bold', 
+                        color=self.colors['primary'], pad=40)
             ax.set_xticks(x_pos)
-            ax.set_xticklabels(condition_names)
-            ax.grid(True, alpha=0.2)
+            ax.set_xticklabels(condition_names, fontsize=12, fontweight='bold', color=self.colors['primary'])
+            
+            # Set y-axis ticks and labels
+            ax.tick_params(axis='y', labelsize=10, color=self.colors['primary'])
+            ax.tick_params(axis='x', labelsize=10, color=self.colors['primary'])
+            
+            # Add grid for better readability
+            ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+            ax.set_axisbelow(True)
+            
+            # Remove top and right spines for cleaner look
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['left'].set_linewidth(1.2)
+            ax.spines['bottom'].set_linewidth(1.2)
+            
+            # Set axis limits with some padding
+            y_min, y_max = ax.get_ylim()
+            y_range = y_max - y_min
+            ax.set_ylim(y_min - 0.05 * y_range, y_max + 0.25 * y_range)  # More space for annotations
         
-        fig.suptitle(title, fontsize=9, fontweight='bold')
+        # Add overall title with professional styling - positioned higher
+        fig.suptitle(title, fontsize=16, fontweight='bold', 
+                    color=self.colors['primary'], y=1.08)
+        
+        # Add figure legend
+        from matplotlib.lines import Line2D
+        legend_elements = [
+            Line2D([0], [0], color=self.colors['neutral'], alpha=0.6, linewidth=2, 
+                   label='Individual participants'),
+            plt.Rectangle((0,0),1,1, facecolor=self.colors['secondary'], alpha=0.8, 
+                          label='Condition A'),
+            plt.Rectangle((0,0),1,1, facecolor=self.colors['accent'], alpha=0.8, 
+                          label='Condition B')
+        ]
+        
+        fig.legend(handles=legend_elements, loc='center', bbox_to_anchor=(0.5, -0.05), 
+                   ncol=3, fontsize=11, frameon=False)
+        
+        # Adjust layout for professional appearance
         plt.tight_layout()
+        plt.subplots_adjust(bottom=0.15, top=0.85)  # Make room for legend and title
         
         return fig
     
@@ -177,7 +306,7 @@ class PublicationPlotter:
                               predictor_vars: List[str],
                               title: str = "Correlation Analysis") -> plt.Figure:
         """
-        Create publication-ready correlation plots for Q3.
+        Create publication-ready correlation plots following journal standards.
         
         Args:
             df (pd.DataFrame): Dataframe with target and predictor variables
@@ -197,8 +326,12 @@ class PublicationPlotter:
         if n_targets == 0 or n_predictors == 0:
             raise ValueError("No valid target or predictor variables found")
         
+        # Calculate optimal figure size with better spacing
+        fig_width = max(4.5 * n_predictors, 12)
+        fig_height = max(4.5 * n_targets, 10)
+        
         fig, axes = plt.subplots(n_targets, n_predictors, 
-                                figsize=(4*n_predictors, 4*n_targets))
+                                figsize=(fig_width, fig_height), dpi=self.dpi)
         
         if n_targets == 1 and n_predictors == 1:
             axes = np.array([[axes]])
@@ -224,18 +357,21 @@ class PublicationPlotter:
                 
                 if len(valid_data) < 3:
                     ax.text(0.5, 0.5, 'Insufficient data', 
-                           ha='center', va='center', transform=ax.transAxes)
+                           ha='center', va='center', transform=ax.transAxes,
+                           fontsize=12, color=self.colors['primary'], fontweight='bold')
                     continue
                 
-                # Create scatter plot
+                # Create scatter plot with professional styling
                 ax.scatter(valid_data[predictor], valid_data[target], 
-                          alpha=0.7, s=60, color=self.colors['correlation'])
+                          alpha=0.7, s=60, color=self.colors['secondary'],
+                          edgecolors='white', linewidth=0.5, zorder=2)
                 
-                # Add trend line
+                # Add trend line with professional styling
                 z = np.polyfit(valid_data[predictor], valid_data[target], 1)
                 p = np.poly1d(z)
                 ax.plot(valid_data[predictor], p(valid_data[predictor]), 
-                       "r--", alpha=0.8, linewidth=2)
+                       color=self.colors['accent'], alpha=0.8, linewidth=2,
+                       linestyle='--', zorder=1)
                 
                 # Calculate and display correlation
                 correlation, p_value = np.corrcoef(valid_data[predictor], valid_data[target])[0, 1], 0
@@ -245,21 +381,45 @@ class PublicationPlotter:
                 except:
                     pass
                 
-                # Add correlation text
-                sig_text = "**" if p_value < 0.05 else ""
-                ax.text(0.05, 0.95, f'r = {correlation:.3f}{sig_text}\np = {p_value:.3f}', 
-                       transform=ax.transAxes, verticalalignment='top',
-                       bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+                # Add correlation text with professional styling
+                sig_text = "**" if p_value < 0.01 else "*" if p_value < 0.05 else ""
+                sig_color = self.colors['error'] if p_value < 0.05 else self.colors['primary']
                 
-                # Customize plot
-                ax.set_xlabel(predictor.replace('_', ' ').title())
-                ax.set_ylabel(target.replace('_', ' ').title())
-                ax.grid(True, alpha=0.3)
+                corr_text = f'r = {correlation:.3f}{sig_text}\np = {p_value:.3f}'
+                ax.text(0.05, 0.95, corr_text, transform=ax.transAxes, 
+                       verticalalignment='top', fontsize=10, color=sig_color, fontweight='bold',
+                       bbox=dict(boxstyle='round,pad=0.5', facecolor='white', 
+                                alpha=0.95, edgecolor=self.colors['neutral'], 
+                                linewidth=1))
+                
+                # Customize plot with professional styling
+                ax.set_xlabel(predictor.replace('_', ' ').title(), 
+                            fontsize=12, fontweight='bold', color=self.colors['primary'])
+                ax.set_ylabel(target.replace('_', ' ').title(), 
+                            fontsize=12, fontweight='bold', color=self.colors['primary'])
+                
+                # Set tick parameters
+                ax.tick_params(axis='both', labelsize=10, color=self.colors['primary'])
+                
+                # Add grid for better readability
+                ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+                ax.set_axisbelow(True)
+                
+                # Remove top and right spines for cleaner look
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                ax.spines['left'].set_linewidth(1.2)
+                ax.spines['bottom'].set_linewidth(1.2)
                 
                 plot_count += 1
         
-        fig.suptitle(title, fontsize=16, fontweight='bold')
+        # Add overall title with professional styling - positioned higher
+        fig.suptitle(title, fontsize=16, fontweight='bold', 
+                    color=self.colors['primary'], y=1.08)
+        
+        # Adjust layout
         plt.tight_layout()
+        plt.subplots_adjust(top=0.85)
         
         return fig
     
@@ -268,7 +428,7 @@ class PublicationPlotter:
                              predictor_vars: List[str],
                              title: str = "Multiple Regression Analysis") -> plt.Figure:
         """
-        Create publication-ready regression plots for Q3.
+        Create publication-ready regression plots following journal standards.
         
         Args:
             df (pd.DataFrame): Dataframe with target and predictor variables
@@ -293,9 +453,10 @@ class PublicationPlotter:
         if len(analysis_data) < len(valid_predictors) + 2:
             raise ValueError("Insufficient data for regression analysis")
         
-        # Create figure with subplots
-        fig = plt.figure(figsize=(12, 8))
-        gs = fig.add_gridspec(2, 2, height_ratios=[1, 1], width_ratios=[1, 1])
+        # Create figure with subplots using professional layout
+        fig = plt.figure(figsize=(16, 12), dpi=self.dpi)
+        gs = fig.add_gridspec(2, 2, height_ratios=[1, 1], width_ratios=[1, 1],
+                             hspace=0.4, wspace=0.4)
         
         # Panel A: Actual vs Predicted
         ax0 = fig.add_subplot(gs[0, 0])
@@ -307,23 +468,42 @@ class PublicationPlotter:
         model = OLS(y, X).fit()
         y_pred = model.predict(X)
         
-        # Plot actual vs predicted
-        ax0.scatter(y, y_pred, alpha=0.7, s=40, color='tab:blue')
-        ax0.plot([y.min(), y.max()], [y.min(), y.max()], 'r--', alpha=0.8, linewidth=1.5)
-        ax0.set_xlabel('Actual Values (V/m)')
-        ax0.set_ylabel('Predicted Values (V/m)')
-        ax0.set_title(f'A. Actual vs Predicted\nR² = {model.rsquared:.3f}')
-        ax0.grid(True, alpha=0.2)
+        # Plot actual vs predicted with professional styling
+        ax0.scatter(y, y_pred, alpha=0.7, s=40, color=self.colors['secondary'],
+                   edgecolors='white', linewidth=0.5, zorder=2)
+        ax0.plot([y.min(), y.max()], [y.min(), y.max()], 
+                color=self.colors['accent'], alpha=0.8, linewidth=2,
+                linestyle='--', zorder=1)
+        ax0.set_xlabel('Actual Values (V/m)', fontsize=12, fontweight='bold', color=self.colors['primary'])
+        ax0.set_ylabel('Predicted Values (V/m)', fontsize=12, fontweight='bold', color=self.colors['primary'])
+        ax0.set_title(f'A. Actual vs Predicted\nR² = {model.rsquared:.3f}', 
+                     fontsize=13, fontweight='bold', color=self.colors['primary'])
+        ax0.tick_params(axis='both', labelsize=10, color=self.colors['primary'])
+        ax0.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+        ax0.set_axisbelow(True)
+        ax0.spines['top'].set_visible(False)
+        ax0.spines['right'].set_visible(False)
+        ax0.spines['left'].set_linewidth(1.2)
+        ax0.spines['bottom'].set_linewidth(1.2)
         
         # Panel B: Residuals vs Predicted
         ax1 = fig.add_subplot(gs[0, 1])
         residuals = y - y_pred
-        ax1.scatter(y_pred, residuals, alpha=0.7, s=40, color='tab:green')
-        ax1.axhline(y=0, color='r', linestyle='--', alpha=0.8, linewidth=1.5)
-        ax1.set_xlabel('Predicted Values (V/m)')
-        ax1.set_ylabel('Residuals (V/m)')
-        ax1.set_title('B. Residuals vs Predicted')
-        ax1.grid(True, alpha=0.2)
+        ax1.scatter(y_pred, residuals, alpha=0.7, s=40, color=self.colors['tertiary'],
+                   edgecolors='white', linewidth=0.5, zorder=2)
+        ax1.axhline(y=0, color=self.colors['accent'], linestyle='--', 
+                   alpha=0.8, linewidth=2, zorder=1)
+        ax1.set_xlabel('Predicted Values (V/m)', fontsize=12, fontweight='bold', color=self.colors['primary'])
+        ax1.set_ylabel('Residuals (V/m)', fontsize=12, fontweight='bold', color=self.colors['primary'])
+        ax1.set_title('B. Residuals vs Predicted', fontsize=13, fontweight='bold',
+                     color=self.colors['primary'])
+        ax1.tick_params(axis='both', labelsize=10, color=self.colors['primary'])
+        ax1.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+        ax1.set_axisbelow(True)
+        ax1.spines['top'].set_visible(False)
+        ax1.spines['right'].set_visible(False)
+        ax1.spines['left'].set_linewidth(1.2)
+        ax1.spines['bottom'].set_linewidth(1.2)
         
         # Panel C: Coefficient plot
         ax2 = fig.add_subplot(gs[1, :])
@@ -332,39 +512,55 @@ class PublicationPlotter:
         coefs = model.params[1:]  # Exclude intercept
         p_vals = model.pvalues[1:]
         
-        # Create coefficient plot
+        # Create coefficient plot with professional styling
         y_pos = np.arange(len(coefs))
-        colors = ['tab:red' if p < 0.05 else 'tab:gray' for p in p_vals]
+        colors = [self.colors['error'] if p < 0.05 else self.colors['neutral'] for p in p_vals]
         
-        bars = ax2.barh(y_pos, coefs, color=colors, alpha=0.7, height=0.6)
+        bars = ax2.barh(y_pos, coefs, color=colors, alpha=0.8, height=0.6,
+                       edgecolor=self.colors['primary'], linewidth=0.5)
         
-        # Add significance indicators and values
+        # Add significance indicators and values with professional styling
         for i, (coef, p_val) in enumerate(zip(coefs, p_vals)):
             sig_text = "***" if p_val < 0.001 else "**" if p_val < 0.01 else "*" if p_val < 0.05 else "ns"
             p_text = f"p = {p_val:.3f}"
+            text_color = self.colors['error'] if p_val < 0.05 else self.colors['primary']
             
             # Position text based on coefficient sign
             if coef >= 0:
                 ax2.text(coef + 0.0001, i, f"{sig_text}\n{p_text}", 
-                        va='center', ha='left', fontsize=8)
+                        va='center', ha='left', fontsize=7, color=text_color)
             else:
                 ax2.text(coef - 0.0001, i, f"{sig_text}\n{p_text}", 
-                        va='center', ha='right', fontsize=8)
+                        va='center', ha='right', fontsize=7, color=text_color)
         
         ax2.set_yticks(y_pos)
-        ax2.set_yticklabels([var.replace('_', ' ').title() for var in valid_predictors])
-        ax2.set_xlabel('Coefficient Value')
-        ax2.set_title('C. Regression Coefficients')
-        ax2.axvline(x=0, color='black', linestyle='-', alpha=0.5, linewidth=1)
-        ax2.grid(True, alpha=0.2)
+        ax2.set_yticklabels([var.replace('_', ' ').title() for var in valid_predictors],
+                           fontsize=10, fontweight='bold', color=self.colors['primary'])
+        ax2.set_xlabel('Coefficient Value', fontsize=12, fontweight='bold', color=self.colors['primary'])
+        ax2.set_title('C. Regression Coefficients', fontsize=13, fontweight='bold',
+                     color=self.colors['primary'])
+        ax2.axvline(x=0, color=self.colors['primary'], linestyle='-', 
+                   alpha=0.5, linewidth=1)
+        ax2.tick_params(axis='x', labelsize=10, color=self.colors['primary'])
+        ax2.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+        ax2.set_axisbelow(True)
+        ax2.spines['top'].set_visible(False)
+        ax2.spines['right'].set_visible(False)
+        ax2.spines['left'].set_linewidth(1.2)
+        ax2.spines['bottom'].set_linewidth(1.2)
         
-        # Add model summary text
+        # Add model summary text with professional styling
         model_text = f"Model: R² = {model.rsquared:.3f}, F = {model.fvalue:.2f}, p = {model.f_pvalue:.3f}"
-        fig.text(0.5, 0.02, model_text, ha='center', fontsize=10, style='italic')
+        fig.text(0.5, 0.02, model_text, ha='center', fontsize=10, 
+                color=self.colors['primary'], style='italic', fontweight='bold')
         
-        fig.suptitle(title, fontsize=12, fontweight='bold')
+        # Add overall title - positioned higher
+        fig.suptitle(title, fontsize=16, fontweight='bold', 
+                    color=self.colors['primary'], y=1.08)
+        
+        # Adjust layout
         plt.tight_layout()
-        plt.subplots_adjust(bottom=0.1)
+        plt.subplots_adjust(bottom=0.1, top=0.9)
         
         return fig
     
@@ -393,8 +589,8 @@ class PublicationPlotter:
     
     def _create_comparison_summary_plot(self, results: Dict, analysis_type: str,
                                       target: str, optimization_type: str) -> plt.Figure:
-        """Create summary plot for Q1 and Q2 analyses."""
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+        """Create summary plot for Q1 and Q2 analyses with professional styling."""
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), dpi=self.dpi)
         
         # Extract data
         variables = list(results['comparison_results'].keys())
@@ -402,41 +598,55 @@ class PublicationPlotter:
         effect_sizes = [results['comparison_results'][var]['cohens_d'] for var in variables]
         significant = [results['comparison_results'][var]['significant'] for var in variables]
         
-        # Plot 1: P-values
-        colors = ['red' if sig else 'gray' for sig in significant]
-        bars1 = ax1.bar(variables, p_values, color=colors, alpha=0.7)
-        ax1.axhline(y=0.05, color='red', linestyle='--', alpha=0.8, label='α = 0.05')
-        ax1.set_ylabel('P-value')
-        ax1.set_title('Statistical Significance')
+        # Plot 1: P-values with professional styling
+        colors = [self.colors['error'] if sig else self.colors['neutral'] for sig in significant]
+        bars1 = ax1.bar(variables, p_values, color=colors, alpha=0.8,
+                       edgecolor=self.colors['primary'], linewidth=0.5)
+        ax1.axhline(y=0.05, color=self.colors['error'], linestyle='--', 
+                   alpha=0.8, linewidth=2, label='α = 0.05')
+        ax1.set_ylabel('P-value', fontsize=8, color=self.colors['primary'])
+        ax1.set_title('Statistical Significance', fontsize=9, fontweight='bold',
+                     color=self.colors['primary'])
         ax1.set_ylim(0, 1)
-        ax1.legend()
-        ax1.grid(True, alpha=0.3)
+        ax1.legend(fontsize=7, frameon=False)
+        ax1.tick_params(axis='both', labelsize=7, color=self.colors['primary'])
+        ax1.grid(False)
         
-        # Plot 2: Effect sizes
-        colors = ['red' if sig else 'gray' for sig in significant]
-        bars2 = ax2.bar(variables, effect_sizes, color=colors, alpha=0.7)
-        ax2.set_ylabel("Cohen's d")
-        ax2.set_title('Effect Sizes')
-        ax2.axhline(y=0, color='black', linestyle='-', alpha=0.5)
-        ax2.grid(True, alpha=0.3)
+        # Plot 2: Effect sizes with professional styling
+        colors = [self.colors['error'] if sig else self.colors['neutral'] for sig in significant]
+        bars2 = ax2.bar(variables, effect_sizes, color=colors, alpha=0.8,
+                       edgecolor=self.colors['primary'], linewidth=0.5)
+        ax2.set_ylabel("Cohen's d", fontsize=8, color=self.colors['primary'])
+        ax2.set_title('Effect Sizes', fontsize=9, fontweight='bold',
+                     color=self.colors['primary'])
+        ax2.axhline(y=0, color=self.colors['primary'], linestyle='-', 
+                   alpha=0.5, linewidth=1)
+        ax2.tick_params(axis='both', labelsize=7, color=self.colors['primary'])
+        ax2.grid(False)
         
-        # Add significance indicators
+        # Add significance indicators with professional styling
         for i, sig in enumerate(significant):
             if sig:
-                ax1.text(i, p_values[i] + 0.02, '*', ha='center', va='bottom', fontsize=16)
+                ax1.text(i, p_values[i] + 0.02, '*', ha='center', va='bottom', 
+                        fontsize=14, color=self.colors['error'], fontweight='bold')
                 ax2.text(i, effect_sizes[i] + (0.02 if effect_sizes[i] >= 0 else -0.02), '*', 
-                        ha='center', va='bottom' if effect_sizes[i] >= 0 else 'top', fontsize=16)
+                        ha='center', va='bottom' if effect_sizes[i] >= 0 else 'top', 
+                        fontsize=14, color=self.colors['error'], fontweight='bold')
         
+        # Add overall title
         fig.suptitle(f'{analysis_type} Analysis: {target} ({optimization_type})', 
-                    fontsize=16, fontweight='bold')
+                    fontsize=10, fontweight='bold', color=self.colors['primary'])
+        
+        # Adjust layout
         plt.tight_layout()
+        plt.subplots_adjust(top=0.9)
         
         return fig
     
     def _create_demographics_summary_plot(self, results: Dict, 
                                         target: str, optimization_type: str) -> plt.Figure:
-        """Create summary plot for Q3 analysis."""
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+        """Create summary plot for Q3 analysis with professional styling."""
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), dpi=self.dpi)
         
         # Extract correlation data
         if 'correlation_results' in results:
@@ -455,23 +665,30 @@ class PublicationPlotter:
                         corr_matrix[i, j] = corr_data[target_var][predictor]['correlation']
                         p_matrix[i, j] = corr_data[target_var][predictor]['p_value']
             
-            # Plot 1: Correlation heatmap
+            # Plot 1: Correlation heatmap with professional styling
             im1 = ax1.imshow(corr_matrix, cmap='RdBu_r', vmin=-1, vmax=1, aspect='auto')
             ax1.set_xticks(range(len(predictor_vars)))
             ax1.set_yticks(range(len(target_vars)))
-            ax1.set_xticklabels([var.replace('_', ' ').title() for var in predictor_vars], rotation=45)
-            ax1.set_yticklabels([var.replace('_', ' ').title() for var in target_vars])
-            ax1.set_title('Correlation Matrix')
+            ax1.set_xticklabels([var.replace('_', ' ').title() for var in predictor_vars], 
+                               rotation=45, fontsize=7, color=self.colors['primary'])
+            ax1.set_yticklabels([var.replace('_', ' ').title() for var in target_vars],
+                               fontsize=7, color=self.colors['primary'])
+            ax1.set_title('Correlation Matrix', fontsize=9, fontweight='bold',
+                         color=self.colors['primary'])
             
-            # Add correlation values
+            # Add correlation values with professional styling
             for i in range(len(target_vars)):
                 for j in range(len(predictor_vars)):
-                    text = ax1.text(j, i, f'{corr_matrix[i, j]:.2f}',
-                                  ha="center", va="center", color="black", fontweight='bold')
+                    text_color = 'white' if abs(corr_matrix[i, j]) > 0.5 else 'black'
+                    ax1.text(j, i, f'{corr_matrix[i, j]:.2f}',
+                            ha="center", va="center", color=text_color, 
+                            fontweight='bold', fontsize=7)
             
-            plt.colorbar(im1, ax=ax1)
+            # Add colorbar with professional styling
+            cbar = plt.colorbar(im1, ax=ax1)
+            cbar.ax.tick_params(labelsize=7, color=self.colors['primary'])
         
-        # Plot 2: Regression results
+        # Plot 2: Regression results with professional styling
         if 'regression_results' in results and results['regression_results']:
             reg_results = results['regression_results']
             
@@ -480,19 +697,28 @@ class PublicationPlotter:
             p_vals = list(reg_results['p_values'].values())[1:]
             var_names = list(reg_results['coefficients'].keys())[1:]
             
-            colors = ['red' if p < 0.05 else 'gray' for p in p_vals]
-            bars = ax2.bar(range(len(coefs)), coefs, color=colors, alpha=0.7)
+            colors = [self.colors['error'] if p < 0.05 else self.colors['neutral'] for p in p_vals]
+            bars = ax2.bar(range(len(coefs)), coefs, color=colors, alpha=0.8,
+                          edgecolor=self.colors['primary'], linewidth=0.5)
             
             ax2.set_xticks(range(len(coefs)))
-            ax2.set_xticklabels([var.replace('_', ' ').title() for var in var_names], rotation=45)
-            ax2.set_ylabel('Coefficient Value')
-            ax2.set_title(f'Regression Coefficients\nR² = {reg_results["r_squared"]:.3f}')
-            ax2.axhline(y=0, color='black', linestyle='-', alpha=0.5)
-            ax2.grid(True, alpha=0.3)
+            ax2.set_xticklabels([var.replace('_', ' ').title() for var in var_names], 
+                               rotation=45, fontsize=7, color=self.colors['primary'])
+            ax2.set_ylabel('Coefficient Value', fontsize=8, color=self.colors['primary'])
+            ax2.set_title(f'Regression Coefficients\nR² = {reg_results["r_squared"]:.3f}', 
+                         fontsize=9, fontweight='bold', color=self.colors['primary'])
+            ax2.axhline(y=0, color=self.colors['primary'], linestyle='-', 
+                       alpha=0.5, linewidth=1)
+            ax2.tick_params(axis='y', labelsize=7, color=self.colors['primary'])
+            ax2.grid(False)
         
+        # Add overall title
         fig.suptitle(f'Q3 Analysis: {target} ({optimization_type})', 
-                    fontsize=16, fontweight='bold')
+                    fontsize=10, fontweight='bold', color=self.colors['primary'])
+        
+        # Adjust layout
         plt.tight_layout()
+        plt.subplots_adjust(top=0.9)
         
         return fig
 
@@ -500,7 +726,7 @@ class PublicationPlotter:
 def create_q1_plots(df: pd.DataFrame, target: str, optimization_type: str,
                    save_path: str = None, stats_results: Dict = None) -> List[plt.Figure]:
     """
-    Create all plots for Q1 (Individualization) analysis.
+    Create all plots for Q1 (Individualization) analysis with professional styling.
     
     Args:
         df (pd.DataFrame): Comparison dataset
@@ -524,7 +750,7 @@ def create_q1_plots(df: pd.DataFrame, target: str, optimization_type: str,
     
     if save_path:
         fig1.savefig(f"{save_path}/q1_paired_comparison_{target}_{optimization_type}.png", 
-                    dpi=300, bbox_inches='tight')
+                    dpi=300, bbox_inches='tight', facecolor='white')
     
     return figures
 
@@ -532,7 +758,7 @@ def create_q1_plots(df: pd.DataFrame, target: str, optimization_type: str,
 def create_q2_plots(df: pd.DataFrame, target: str, optimization_type: str,
                    save_path: str = None, stats_results: Dict = None) -> List[plt.Figure]:
     """
-    Create all plots for Q2 (Mapping) analysis.
+    Create all plots for Q2 (Mapping) analysis with professional styling.
     
     Args:
         df (pd.DataFrame): Comparison dataset
@@ -556,7 +782,7 @@ def create_q2_plots(df: pd.DataFrame, target: str, optimization_type: str,
     
     if save_path:
         fig1.savefig(f"{save_path}/q2_paired_comparison_{target}_{optimization_type}.png", 
-                    dpi=300, bbox_inches='tight')
+                    dpi=300, bbox_inches='tight', facecolor='white')
     
     return figures
 
@@ -564,7 +790,7 @@ def create_q2_plots(df: pd.DataFrame, target: str, optimization_type: str,
 def create_q3_plots(df: pd.DataFrame, target: str, optimization_type: str,
                    save_path: str = None) -> List[plt.Figure]:
     """
-    Create all plots for Q3 (Demographics) analysis.
+    Create all plots for Q3 (Demographics) analysis with professional styling.
     
     Args:
         df (pd.DataFrame): Dataset with demographics
@@ -600,13 +826,13 @@ def create_q3_plots(df: pd.DataFrame, target: str, optimization_type: str,
             
             if save_path:
                 fig2.savefig(f"{save_path}/q3_regression_{target}_{optimization_type}.png", 
-                            dpi=300, bbox_inches='tight')
+                            dpi=300, bbox_inches='tight', facecolor='white')
     except Exception as e:
         print(f"   Note: Regression plot not created due to insufficient data: {e}")
     
     if save_path:
         fig1.savefig(f"{save_path}/q3_correlations_{target}_{optimization_type}.png", 
-                    dpi=300, bbox_inches='tight')
+                    dpi=300, bbox_inches='tight', facecolor='white')
     
     return figures
 
@@ -614,6 +840,7 @@ def create_q3_plots(df: pd.DataFrame, target: str, optimization_type: str,
 if __name__ == "__main__":
     # Example usage and testing
     print("Visualization Module for TI-Toolbox Research")
+    print("Updated with Cell/Science/Nature publication standards")
     print("Available functions:")
     print("- create_q1_plots()")
     print("- create_q2_plots()")

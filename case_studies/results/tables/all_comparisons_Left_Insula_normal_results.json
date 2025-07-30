@@ -3,7 +3,7 @@
     "analysis_type": "all_comparisons",
     "target": "Left_Insula",
     "optimization_type": "normal",
-    "timestamp": "2025-07-29T23:57:28.603416"
+    "timestamp": "2025-07-30T00:34:52.115318"
   },
   "comparisons": {
     "ernie_vs_mapped": {
