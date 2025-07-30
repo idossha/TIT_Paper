@@ -197,7 +197,10 @@ def create_publication_figure(filename):
     print(f'Publication-ready figure saved as {filename}')
 
 # --- Create figure for hippocampus ---
-create_publication_figure('experiment_0/publication_figure_hippo.png')
+from pathlib import Path
+results_dir = Path(__file__).parent.parent / 'results' / 'figures'
+results_dir.mkdir(parents=True, exist_ok=True)
+create_publication_figure(results_dir / 'publication_figure_hippo.png')
 
 # --- Print summary statistics ---
 print("\n=== CORRELATION SUMMARY ===")

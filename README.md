@@ -45,10 +45,15 @@ TIT_Paper/
 │   │   ├── data_loader.py     # Data loading utilities
 │   │   ├── statistical_analysis.py # Statistical analysis functions
 │   │   ├── plotting_utils.py  # Visualization utilities
-│   │   ├── run_q1_analysis.py # Q1: Individualization effects
-│   │   ├── run_q2_analysis.py # Q2: Mapping effects
+│   │   ├── Q3.py             # Q3 analysis (legacy)
+│   │   ├── Q3_comprehensive.py # Q3 comprehensive analysis
 │   │   ├── run_q3_analysis.py # Q3: Demographic factors
-│   │   └── run_all_analyses.py # Master script for all analyses
+│   │   ├── run_all_comparisons.py # Comprehensive pairwise comparisons
+│   │   ├── run_all_analyses.py # Master script for all analyses
+│   │   ├── test_professional_plots.py # Test plotting capabilities
+│   │   ├── setup_environment.sh # Environment setup (Unix)
+│   │   ├── setup_environment.bat # Environment setup (Windows)
+│   │   └── ENVIRONMENT_SETUP.md # Environment setup documentation
 │   └── results/               # Analysis outputs
 │       ├── figures/           # Generated plots and visualizations
 │       └── tables/            # Statistical results and summaries
@@ -63,54 +68,99 @@ TIT_Paper/
 
 ## 🚀 Quick Start
 
-1. **Setup environment**:
-   ```bash
-   # Create virtual environment
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+### 1. Environment Setup
 
-2. **Run all analyses**:
-   ```bash
-   cd case_studies
-   python analysis/run_all_analyses.py --target Left_insula --optimization max
-   ```
+**Option A: Using setup scripts (Recommended)**
+```bash
+# Unix/Linux/macOS
+cd case_studies/analysis
+chmod +x setup_environment.sh
+./setup_environment.sh
 
-3. **Run specific research questions**:
-   ```bash
-   # Q1: Individualization effects
-   python analysis/run_all_analyses.py --target Left_Insula --optimization max --questions Q1
-   
-   # Q2: Mapping effects
-   python analysis/run_all_analyses.py --target Left_Insula --optimization max --questions Q2
-   
-   # Q3: Demographic factors
-   python analysis/run_all_analyses.py --target Left_Insula --optimization max --questions Q3
-   ```
+# Windows
+cd case_studies\analysis
+setup_environment.bat
+```
 
-4. **Run comprehensive pairwise comparisons**:
-   ```bash
-   # All three comparisons for a target
-   python analysis/run_all_comparisons.py --target Left_Insula --optimization max
-   
-   # Specific comparison
-   python analysis/run_all_comparisons.py --target Left_Insula --optimization max --condition-a ernie --condition-b mapped
-   
-   # All comparisons for all targets
-   python analysis/run_all_comparisons.py --all-targets
-   ```
+**Option B: Manual setup**
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-5. **Run individual analysis scripts**:
-   ```bash
-   python analysis/run_q3_analysis.py --target Left_Insula --optimization max
-   python analysis/run_all_comparisons.py --target Left_Insula --optimization max
-   ```
+### 2. Run Analyses
+
+**From the project root directory:**
+
+```bash
+# Activate virtual environment (if not already activated)
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Run all analyses for a specific target
+python case_studies/analysis/run_all_analyses.py --target Left_Insula --optimization max
+
+# Run comprehensive pairwise comparisons
+python case_studies/analysis/run_all_comparisons.py --target Left_Insula --optimization max
+
+# Run Q3 demographic analysis
+python case_studies/analysis/run_q3_analysis.py --target Left_Insula --optimization max
+
+# Test plotting capabilities
+python case_studies/analysis/test_professional_plots.py
+```
+
+**From the case_studies directory:**
+
+```bash
+cd case_studies
+
+# Run all analyses for a specific target
+python analysis/run_all_analyses.py --target Left_Insula --optimization max
+
+# Run comprehensive pairwise comparisons
+python analysis/run_all_comparisons.py --target Left_Insula --optimization max
+
+# Run Q3 demographic analysis
+python analysis/run_q3_analysis.py --target Left_Insula --optimization max
+
+# Test plotting capabilities
+python analysis/test_professional_plots.py
+```
+
+### 3. Available Targets and Optimizations
+
+**ROI Targets:**
+- `Left_Insula` - Left insula region
+- `Right_Hippocampus` - Right hippocampus region
+
+**Spherical Targets:**
+- `sphere_x-36.1_y14.14_z0.33` - Spherical target at specific coordinates
+
+**Optimization Types:**
+- `max` - Maximize electric field magnitude
+- `normal` - Optimize normal component
+
+**Usage Examples:**
+```bash
+# ROI targets
+python case_studies/analysis/run_all_analyses.py --target Left_Insula --optimization max
+python case_studies/analysis/run_all_analyses.py --target Right_Hippocampus --optimization normal
+
+# Spherical targets
+python case_studies/analysis/run_all_analyses.py --target sphere_x-36.1_y14.14_z0.33 --optimization max
+
+# All comparisons for all targets
+python case_studies/analysis/run_all_comparisons.py --all-targets
+```
 
 ## 📊 Data Files
 
 ### Processed Data (`case_studies/data/processed/`)
 - `demographics.csv` - Participant demographic information
+- `demographics_fake_data.csv` - Synthetic demographic data for testing
 
 ### Data Naming Convention
 
@@ -134,36 +184,32 @@ TIT_Paper/
 - **Right_Hippocampus**: max/normal optimization with ernie/mapped/opt montages
 - **Spherical targets**: Coordinate-specific targets with max/normal optimization
 
-### Usage Examples
-```bash
-# ROI targets
-python analysis/run_all_analyses.py --target Left_Insula --optimization max
-python analysis/run_all_analyses.py --target Right_Hippocampus --optimization normal
-
-# Spherical targets
-python analysis/run_all_analyses.py --target sphere_x-36.1_y14.14_z0.33 --optimization max
-python analysis/run_all_comparisons.py --target sphere_x-36.1_y14.14_z0.33 --optimization max
-```
-
 ## 🔧 Key Scripts
 
 ### Analysis Scripts
 - `case_studies/analysis/run_all_analyses.py` - Master script for running Q3 and comprehensive comparisons
 - `case_studies/analysis/run_all_comparisons.py` - Comprehensive pairwise comparisons (replaces Q1/Q2)
 - `case_studies/analysis/run_q3_analysis.py` - Q3: Demographic factors analysis
+- `case_studies/analysis/Q3_comprehensive.py` - Comprehensive Q3 analysis with all mapping types
+- `case_studies/analysis/test_professional_plots.py` - Test plotting capabilities
 
 ### Supporting Modules
-- `case_studies/analysis/data_loader.py` - Data loading utilities
+- `case_studies/analysis/data_loader.py` - Data loading utilities with automatic path resolution
 - `case_studies/analysis/statistical_analysis.py` - Statistical analysis functions
-- `case_studies/analysis/plotting_utils.py` - Visualization utilities
+- `case_studies/analysis/plotting_utils.py` - Visualization utilities with publication-ready styling
 - `toolbox_related/scripts/TI_simple_test.py` - Toolbox testing utilities
-- `requirements.txt` - Python dependencies
+
+### Setup Scripts
+- `case_studies/analysis/setup_environment.sh` - Environment setup for Unix/Linux/macOS
+- `case_studies/analysis/setup_environment.bat` - Environment setup for Windows
+- `case_studies/analysis/ENVIRONMENT_SETUP.md` - Detailed environment setup documentation
 
 ## 📈 Results & Visualizations
 
 ### Figures (`case_studies/results/figures/`)
 - Generated plots from Q3 analysis and comprehensive comparisons
 - Publication-ready visualizations with statistical information
+- Test plots for verifying plotting capabilities
 
 ### Tables (`case_studies/results/tables/`)
 - Statistical results in JSON format
@@ -177,17 +223,43 @@ python analysis/run_all_comparisons.py --target sphere_x-36.1_y14.14_z0.33 --opt
 
 ## 🎯 Research Workflow
 
-1. **Data Preparation**: Raw data → `case_studies/data/processed/`
-2. **Q3 Analysis**: Run demographic factors analysis using `case_studies/analysis/` scripts
-3. **Comprehensive Comparisons**: Run all pairwise comparisons (ernie vs mapped, ernie vs optimized, mapped vs optimized)
-4. **Results**: Generated figures and tables in `case_studies/results/`
-5. **Toolbox Development**: Toolbox methods and utilities in `toolbox_related/`
+1. **Environment Setup**: Use setup scripts or manual installation
+2. **Data Preparation**: Raw data → `case_studies/data/processed/`
+3. **Q3 Analysis**: Run demographic factors analysis using `case_studies/analysis/` scripts
+4. **Comprehensive Comparisons**: Run all pairwise comparisons (ernie vs mapped, ernie vs optimized, mapped vs optimized)
+5. **Results**: Generated figures and tables in `case_studies/results/`
+6. **Toolbox Development**: Toolbox methods and utilities in `toolbox_related/`
+
+## 🔍 Path Handling & I/O
+
+The analysis scripts use robust path handling with the following features:
+
+- **Automatic Path Resolution**: Scripts automatically find data and results directories relative to their location
+- **Cross-Platform Compatibility**: Uses `pathlib.Path` for consistent path handling across operating systems
+- **Directory Creation**: Automatically creates results directories if they don't exist
+- **Error Handling**: Graceful error handling for missing files or directories
+
+### Path Structure
+```
+case_studies/
+├── analysis/          # Scripts location
+├── data/processed/    # Input data
+└── results/          # Output results
+    ├── figures/      # Generated plots
+    └── tables/       # Statistical results
+```
 
 ## 🤝 Contributing
 
 For questions about the research methodology or analysis approach, please refer to the research questions section above. The experimental design table provides a clear overview of all analyses performed.
 
+### Development Guidelines
+- All scripts use consistent path handling with `pathlib.Path`
+- Results are automatically saved to appropriate subdirectories
+- Error handling is implemented for missing data or directories
+- Cross-platform compatibility is maintained
+
 ---
 
-**Last Updated**: July 2024
+**Last Updated**: December 2024
 **Paper Status**: In Preparation

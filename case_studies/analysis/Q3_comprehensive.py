@@ -27,8 +27,14 @@ from plotting_utils import PublicationPlotter, PROFESSIONAL_COLORS
 def load_and_prepare_data():
     """Load demographics and field data for all mapping types."""
     
+    # Get data directory path
+    from pathlib import Path
+    data_dir = Path(__file__).parent.parent / 'data' / 'processed'
+    
     # Load demographics
-    demographics = pd.read_csv('data/processed/demographics.csv')
+    demographics_path = data_dir / 'demographics.csv'
+    demographics = pd.read_csv(demographics_path)
+    print(f"Loaded demographics: {demographics_path}")
     
     # Define regions and mapping types
     regions = ['Left_Insula_normal', 'Left_Insula_max', 'Right_Hippocampus_max']
@@ -40,7 +46,7 @@ def load_and_prepare_data():
     for region in regions:
         field_data[region] = {}
         for mapping_type in mapping_types:
-            filename = f'data/processed/{region}_{mapping_type}.csv'
+            filename = data_dir / f'{region}_{mapping_type}.csv'
             try:
                 df = pd.read_csv(filename)
                 # Remove AVERAGE row if present
@@ -359,8 +365,9 @@ def main():
     
     # Create results directory
     import os
-    results_dir = 'results/figures'
-    os.makedirs(results_dir, exist_ok=True)
+    from pathlib import Path
+    results_dir = Path(__file__).parent.parent / 'results' / 'figures'
+    results_dir.mkdir(parents=True, exist_ok=True)
     
     # Analyze each region
     for region in regions:

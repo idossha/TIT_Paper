@@ -153,7 +153,7 @@ def create_comprehensive_summary():
     """
     print("\nCreating comprehensive summary...")
     
-    results_dir = Path(__file__).parent.parent.parent / 'results' / 'tables'
+            results_dir = Path(__file__).parent.parent / 'results' / 'tables'
     
     if not results_dir.exists():
         print("No results directory found. Run analyses first.")

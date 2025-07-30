@@ -68,6 +68,11 @@ def test_professional_plotting():
     # Initialize the professional plotter
     plotter = PublicationPlotter()
     
+    # Create results directory for test plots
+    from pathlib import Path
+    test_results_dir = Path(__file__).parent.parent / 'results' / 'figures'
+    test_results_dir.mkdir(parents=True, exist_ok=True)
+    
     # Test 1: Paired comparison plot (Q1/Q2 style)
     print("\n1. Creating paired comparison plot...")
     fig1 = plotter.create_paired_comparison_plot(
@@ -75,8 +80,8 @@ def test_professional_plotting():
         variables=['ROI_Mean', 'ROI_Max'],
         title="Professional Paired Comparison Example"
     )
-    fig1.savefig('test_paired_comparison.png', dpi=300, bbox_inches='tight', facecolor='white')
-    print("   ✓ Saved: test_paired_comparison.png")
+    fig1.savefig(test_results_dir / 'test_paired_comparison.png', dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"   ✓ Saved: {test_results_dir / 'test_paired_comparison.png'}")
     
     # Test 2: Correlation plot (Q3 style)
     print("\n2. Creating correlation plot...")
@@ -86,8 +91,8 @@ def test_professional_plotting():
         predictor_vars=['age', 'bone_volume'],
         title="Professional Correlation Analysis Example"
     )
-    fig2.savefig('test_correlations.png', dpi=300, bbox_inches='tight', facecolor='white')
-    print("   ✓ Saved: test_correlations.png")
+    fig2.savefig(test_results_dir / 'test_correlations.png', dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"   ✓ Saved: {test_results_dir / 'test_correlations.png'}")
     
     # Test 3: Regression plot (Q3 style)
     print("\n3. Creating regression plot...")
@@ -97,8 +102,8 @@ def test_professional_plotting():
         predictor_vars=['age', 'bone_volume', 'bone_mean_thick'],
         title="Professional Regression Analysis Example"
     )
-    fig3.savefig('test_regression.png', dpi=300, bbox_inches='tight', facecolor='white')
-    print("   ✓ Saved: test_regression.png")
+    fig3.savefig(test_results_dir / 'test_regression.png', dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"   ✓ Saved: {test_results_dir / 'test_regression.png'}")
     
     # Test 4: Color palette demonstration
     print("\n4. Creating color palette demonstration...")
@@ -125,16 +130,16 @@ def test_professional_plotting():
     ax.spines['left'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
     
-    fig4.savefig('test_color_palette.png', dpi=300, bbox_inches='tight', facecolor='white')
-    print("   ✓ Saved: test_color_palette.png")
+    fig4.savefig(test_results_dir / 'test_color_palette.png', dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"   ✓ Saved: {test_results_dir / 'test_color_palette.png'}")
     
     print("\n" + "=" * 50)
     print("Professional plotting test completed successfully!")
     print("Generated files:")
-    print("- test_paired_comparison.png")
-    print("- test_correlations.png") 
-    print("- test_regression.png")
-    print("- test_color_palette.png")
+    print(f"- {test_results_dir / 'test_paired_comparison.png'}")
+    print(f"- {test_results_dir / 'test_correlations.png'}")
+    print(f"- {test_results_dir / 'test_regression.png'}")
+    print(f"- {test_results_dir / 'test_color_palette.png'}")
     print("\nAll figures follow Cell/Science/Nature publication standards.")
 
 if __name__ == "__main__":
