@@ -1,0 +1,94 @@
+{
+  "analysis_info": {
+    "analysis_type": "comparison",
+    "comparison": "ernie_vs_mapped",
+    "target": "Left_Insula",
+    "optimization_type": "max",
+    "condition_a": "ernie",
+    "condition_b": "mapped",
+    "timestamp": "2025-07-29T23:56:33.578609",
+    "n_participants": 74
+  },
+  "data_quality": {
+    "n_participants": 74,
+    "missing_values": {
+      "Subject_ID": 0,
+      "ROI_Mean": 0,
+      "ROI_Max": 0,
+      "Normal_Mean": 0,
+      "Normal_Max": 0,
+      "ROI_Focality": 0,
+      "condition": 0
+    },
+    "duplicates": "0",
+    "numeric_columns": []
+  },
+  "statistical_results": {
+    "ROI_Mean": {
+      "diff": 0.008212324324324283,
+      "percent_change": 2.6386370816320834,
+      "z_score": 0.22273044967479033,
+      "p_value": 2.4312013173371895e-06,
+      "cohens_d": 0.9195128976901156,
+      "significant": "True",
+      "mean_a": 0.31123356756756754,
+      "mean_b": 0.3194458918918918,
+      "std_a": 0.03668018872902233,
+      "std_b": 0.037061096112278494,
+      "n": 37
+    },
+    "ROI_Max": {
+      "diff": 0.014489270270270194,
+      "percent_change": 3.224691143264792,
+      "z_score": 0.27997687255408593,
+      "p_value": 6.934171125868506e-05,
+      "cohens_d": 0.739092472555596,
+      "significant": "True",
+      "mean_a": 0.4493227297297297,
+      "mean_b": 0.4638119999999999,
+      "std_a": 0.0489196910760941,
+      "std_b": 0.054436515235639395,
+      "n": 37
+    },
+    "ROI_Focality": {
+      "diff": 0.0008100810810809378,
+      "percent_change": 0.0574011740534565,
+      "z_score": 0.011548005505774554,
+      "p_value": 0.9343448595522241,
+      "cohens_d": 0.013638137241009237,
+      "significant": "False",
+      "mean_a": 1.411262216216216,
+      "mean_b": 1.412072297297297,
+      "std_a": 0.060962343438449834,
+      "std_b": 0.07826466716102373,
+      "n": 37
+    },
+    "Normal_Mean": {
+      "diff": -0.013019729729729729,
+      "percent_change": -6.182421276574446,
+      "z_score": -0.47746227792204937,
+      "p_value": 6.763319980135853e-05,
+      "cohens_d": -0.7404573439528123,
+      "significant": "True",
+      "mean_a": 0.21059272972972973,
+      "mean_b": 0.197573,
+      "std_a": 0.024447551915215297,
+      "std_b": 0.029823995737027292,
+      "n": 37
+    },
+    "Normal_Max": {
+      "diff": 0.003020918918918869,
+      "percent_change": 0.778501018833786,
+      "z_score": 0.0635423498110228,
+      "p_value": 0.41917951330026904,
+      "cohens_d": 0.13434982524382824,
+      "significant": "False",
+      "mean_a": 0.38804302702702703,
+      "mean_b": 0.3910639459459459,
+      "std_a": 0.05024541936473551,
+      "std_b": 0.044674903653409724,
+      "n": 37
+    }
+  },
+  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: max\nComparison: ernie vs mapped\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: ROI_Mean, ROI_Max, ROI_Focality, Normal_Mean, Normal_Max\n\nRESULTS:\n------------------------------\nROI_MEAN: higher in condition B (0.008 = +2.6% = +0.22 SD)\n  p = 0.000, Cohen's d = 0.92 - **SIGNIFICANT**\n\nROI_MAX: higher in condition B (0.014 = +3.2% = +0.28 SD)\n  p = 0.000, Cohen's d = 0.74 - **SIGNIFICANT**\n\nROI_FOCALITY: higher in condition B (0.001 = +0.1% = +0.01 SD)\n  p = 0.934, Cohen's d = 0.01 - Not significant\n\nNORMAL_MEAN: lower in condition B (-0.013 = -6.2% = -0.48 SD)\n  p = 0.000, Cohen's d = -0.74 - **SIGNIFICANT**\n\nNORMAL_MAX: higher in condition B (0.003 = +0.8% = +0.06 SD)\n  p = 0.419, Cohen's d = 0.13 - Not significant\n"
+}

@@ -1,0 +1,27 @@
+STATISTICAL ANALYSIS REPORT
+==================================================
+
+Analysis Type: Comparison
+Target: Left_Insula
+Optimization: normal
+Comparison: ernie vs mapped
+
+Study Design: Within-subjects comparison
+Variables Analyzed: ROI_Mean, ROI_Max, ROI_Focality, Normal_Mean, Normal_Max
+
+RESULTS:
+------------------------------
+ROI_MEAN: higher in condition B (0.010 = +3.3% = +0.26 SD)
+  p = 0.000, Cohen's d = 1.10 - **SIGNIFICANT**
+
+ROI_MAX: higher in condition B (0.018 = +4.0% = +0.34 SD)
+  p = 0.001, Cohen's d = 0.63 - **SIGNIFICANT**
+
+ROI_FOCALITY: lower in condition B (-0.023 = -1.5% = -0.27 SD)
+  p = 0.139, Cohen's d = -0.25 - Not significant
+
+NORMAL_MEAN: higher in condition B (0.001 = +0.3% = +0.02 SD)
+  p = 0.575, Cohen's d = 0.09 - Not significant
+
+NORMAL_MAX: higher in condition B (0.013 = +3.4% = +0.27 SD)
+  p = 0.002, Cohen's d = 0.55 - **SIGNIFICANT**

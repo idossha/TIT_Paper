@@ -1,0 +1,21 @@
+STATISTICAL ANALYSIS REPORT
+==================================================
+
+Analysis Type: Comparison
+Target: Right_Hippocampus
+Optimization: max
+Comparison: ernie vs optimized
+
+Study Design: Within-subjects comparison
+Variables Analyzed: ROI_Mean, ROI_Max, ROI_Focality
+
+RESULTS:
+------------------------------
+ROI_MEAN: higher in condition B (0.015 = +5.8% = +0.36 SD)
+  p = 0.053, Cohen's d = 0.33 - Not significant
+
+ROI_MAX: higher in condition B (0.029 = +7.1% = +0.38 SD)
+  p = 0.032, Cohen's d = 0.37 - **SIGNIFICANT**
+
+ROI_FOCALITY: lower in condition B (-0.059 = -4.2% = -0.32 SD)
+  p = 0.148, Cohen's d = -0.24 - Not significant

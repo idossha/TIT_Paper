@@ -1,0 +1,66 @@
+{
+  "analysis_info": {
+    "analysis_type": "comparison",
+    "comparison": "ernie_vs_optimized",
+    "target": "Right_Hippocampus",
+    "optimization_type": "max",
+    "condition_a": "ernie",
+    "condition_b": "optimized",
+    "timestamp": "2025-07-29T23:59:19.363377",
+    "n_participants": 74
+  },
+  "data_quality": {
+    "n_participants": 74,
+    "missing_values": {
+      "Subject_ID": 0,
+      "ROI_Mean": 0,
+      "ROI_Max": 0,
+      "ROI_Focality": 0,
+      "condition": 0
+    },
+    "duplicates": "0",
+    "numeric_columns": []
+  },
+  "statistical_results": {
+    "ROI_Mean": {
+      "diff": 0.014995324324324322,
+      "percent_change": 5.84254312219872,
+      "z_score": 0.3628832187472763,
+      "p_value": 0.052754169335766384,
+      "cohens_d": 0.3292864483445337,
+      "significant": "False",
+      "mean_a": 0.25665748648648645,
+      "mean_b": 0.2716528108108108,
+      "std_a": 0.024074726590834282,
+      "std_b": 0.05324981819887476,
+      "n": 37
+    },
+    "ROI_Max": {
+      "diff": 0.0293485945945946,
+      "percent_change": 7.067837304190803,
+      "z_score": 0.3789389798254844,
+      "p_value": 0.03180207553761775,
+      "cohens_d": 0.3672288938134777,
+      "significant": "True",
+      "mean_a": 0.41524151351351346,
+      "mean_b": 0.44459010810810806,
+      "std_a": 0.05134759414878041,
+      "std_b": 0.09674834384450542,
+      "n": 37
+    },
+    "ROI_Focality": {
+      "diff": -0.05854259459459432,
+      "percent_change": -4.160468918718988,
+      "z_score": -0.322415845643483,
+      "p_value": 0.14843299414226746,
+      "cohens_d": -0.24277906395404866,
+      "significant": "False",
+      "mean_a": 1.4071152972972971,
+      "mean_b": 1.3485727027027028,
+      "std_a": 0.06942841844177226,
+      "std_b": 0.24722159087388526,
+      "n": 37
+    }
+  },
+  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Right_Hippocampus\nOptimization: max\nComparison: ernie vs optimized\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: ROI_Mean, ROI_Max, ROI_Focality\n\nRESULTS:\n------------------------------\nROI_MEAN: higher in condition B (0.015 = +5.8% = +0.36 SD)\n  p = 0.053, Cohen's d = 0.33 - Not significant\n\nROI_MAX: higher in condition B (0.029 = +7.1% = +0.38 SD)\n  p = 0.032, Cohen's d = 0.37 - **SIGNIFICANT**\n\nROI_FOCALITY: lower in condition B (-0.059 = -4.2% = -0.32 SD)\n  p = 0.148, Cohen's d = -0.24 - Not significant\n"
+}
