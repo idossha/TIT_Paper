@@ -7,21 +7,18 @@ Optimization: normal
 Comparison: mapped vs optimized
 
 Study Design: Within-subjects comparison
-Variables Analyzed: ROI_Mean, ROI_Max, ROI_Focality, Normal_Mean, Normal_Max
+Variables Analyzed: Normal_Mean, Normal_Max, Normal_Focality
 
 RESULTS:
 ------------------------------
-ROI_MEAN: higher in condition B (0.006 = +2.0% = +0.16 SD)
-  p = 0.001, Cohen's d = 0.57 - **SIGNIFICANT**
-
-ROI_MAX: higher in condition B (0.010 = +2.1% = +0.17 SD)
-  p = 0.014, Cohen's d = 0.42 - **SIGNIFICANT**
-
-ROI_FOCALITY: lower in condition B (-0.005 = -0.3% = -0.05 SD)
-  p = 0.406, Cohen's d = -0.14 - Not significant
-
 NORMAL_MEAN: higher in condition B (0.010 = +4.4% = +0.36 SD)
-  p = 0.000, Cohen's d = 1.28 - **SIGNIFICANT**
+  p = 0.000 (t-test), Cohen's d = 1.28 - **SIGNIFICANT**
+  Data: Normal (used t-test)
 
 NORMAL_MAX: higher in condition B (0.007 = +1.9% = +0.16 SD)
-  p = 0.016, Cohen's d = 0.42 - **SIGNIFICANT**
+  p = 0.016 (t-test), Cohen's d = 0.42 - **SIGNIFICANT**
+  Data: Normal (used t-test)
+
+NORMAL_FOCALITY: higher in condition B (0.021 = +0.9% = +0.13 SD)
+  p = 0.117 (Wilcoxon), r = 0.26 - Not significant
+  Data: Non-normal (used Wilcoxon)

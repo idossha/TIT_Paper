@@ -1,0 +1,13 @@
+{
+  "analysis_info": {
+    "analysis_type": "all_comparisons",
+    "target": "Right_Hippocampus",
+    "optimization_type": "normal",
+    "timestamp": "2025-07-30T19:57:49.398023"
+  },
+  "comparisons": {
+    "ernie_vs_mapped": null,
+    "ernie_vs_optimized": null,
+    "mapped_vs_optimized": null
+  }
+}

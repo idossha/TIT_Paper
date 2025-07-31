@@ -7,21 +7,18 @@ Optimization: normal
 Comparison: ernie vs optimized
 
 Study Design: Within-subjects comparison
-Variables Analyzed: ROI_Mean, ROI_Max, ROI_Focality, Normal_Mean, Normal_Max
+Variables Analyzed: Normal_Mean, Normal_Max, Normal_Focality
 
 RESULTS:
 ------------------------------
-ROI_MEAN: higher in condition B (0.016 = +5.3% = +0.41 SD)
-  p = 0.000, Cohen's d = 1.42 - **SIGNIFICANT**
-
-ROI_MAX: higher in condition B (0.027 = +6.2% = +0.51 SD)
-  p = 0.000, Cohen's d = 1.04 - **SIGNIFICANT**
-
-ROI_FOCALITY: lower in condition B (-0.027 = -1.8% = -0.33 SD)
-  p = 0.075, Cohen's d = -0.30 - Not significant
-
 NORMAL_MEAN: higher in condition B (0.010 = +4.7% = +0.37 SD)
-  p = 0.000, Cohen's d = 1.45 - **SIGNIFICANT**
+  p = 0.000 (t-test), Cohen's d = 1.45 - **SIGNIFICANT**
+  Data: Normal (used t-test)
 
 NORMAL_MAX: higher in condition B (0.021 = +5.4% = +0.41 SD)
-  p = 0.000, Cohen's d = 0.90 - **SIGNIFICANT**
+  p = 0.000 (t-test), Cohen's d = 0.90 - **SIGNIFICANT**
+  Data: Normal (used t-test)
+
+NORMAL_FOCALITY: lower in condition B (-0.078 = -3.3% = -0.59 SD)
+  p = 0.003 (t-test), Cohen's d = -0.53 - **SIGNIFICANT**
+  Data: Normal (used t-test)

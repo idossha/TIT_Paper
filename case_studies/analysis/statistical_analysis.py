@@ -32,7 +32,8 @@ class StatisticalAnalyzer:
         self.results = {}
     
     def paired_comparison_analysis(self, df: pd.DataFrame, 
-                                 variables: List[str] = None) -> Dict[str, Dict]:
+                                 variables: List[str] = None,
+                                 optimization_type: str = None) -> Dict[str, Dict]:
         """
         Perform paired comparison analysis between two conditions.
         
@@ -53,7 +54,14 @@ class StatisticalAnalyzer:
                 - significant: Boolean significance indicator
         """
         if variables is None:
-            variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality', 'Normal_Mean', 'Normal_Max']
+            # Select variables based on optimization type
+            if optimization_type and 'max' in optimization_type.lower():
+                variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality']
+            elif optimization_type and 'normal' in optimization_type.lower():
+                variables = ['Normal_Mean', 'Normal_Max', 'Normal_Focality']
+            else:
+                # Fallback to all available variables
+                variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality', 'Normal_Mean', 'Normal_Max']
         
         # Filter to only include variables that exist in the dataframe
         variables = [var for var in variables if var in df.columns]
@@ -75,23 +83,80 @@ class StatisticalAnalyzer:
             pooled_std = np.sqrt((std_a**2 + std_b**2) / 2)
             z_score = diff / pooled_std if pooled_std != 0 else 0
             
-            # Statistical test (paired t-test)
-            t_stat, p_value = stats.ttest_rel(condition_b_data, condition_a_data)
+            # Test for normality using Shapiro-Wilk test
+            _, norm_p_a = stats.shapiro(condition_a_data)
+            _, norm_p_b = stats.shapiro(condition_b_data)
+            _, norm_p_diff = stats.shapiro(condition_b_data - condition_a_data)
+            is_normal = all(p > 0.05 for p in [norm_p_a, norm_p_b, norm_p_diff])
+            
+            # Statistical tests - both parametric and non-parametric
+            # Paired t-test (parametric)
+            t_stat, t_p_value = stats.ttest_rel(condition_b_data, condition_a_data)
             cohens_d = np.mean(condition_b_data - condition_a_data) / np.std(condition_b_data - condition_a_data, ddof=1)
+            
+            # Wilcoxon signed-rank test (non-parametric)
+            try:
+                w_stat, w_p_value = stats.wilcoxon(condition_b_data, condition_a_data, alternative='two-sided')
+                # Calculate effect size for Wilcoxon (r = Z / sqrt(N))
+                z_score_wilcoxon = (w_stat - len(condition_a_data) * (len(condition_a_data) + 1) / 4) / np.sqrt(len(condition_a_data) * (len(condition_a_data) + 1) * (2 * len(condition_a_data) + 1) / 24)
+                r_effect_size = abs(z_score_wilcoxon) / np.sqrt(len(condition_a_data))
+            except ValueError:
+                # Handle case where all differences are zero
+                w_stat, w_p_value = np.nan, 1.0
+                r_effect_size = 0.0
+            
+            # Choose appropriate test based on normality
+            if is_normal:
+                primary_p_value = t_p_value
+                primary_test = "t-test"
+                primary_effect_size = cohens_d
+                primary_effect_name = "Cohen's d"
+            else:
+                primary_p_value = w_p_value
+                primary_test = "Wilcoxon"
+                primary_effect_size = r_effect_size
+                primary_effect_name = "r"
             
             # Store results
             results[var] = {
                 'diff': diff,
                 'percent_change': percent_change,
                 'z_score': z_score,
-                'p_value': p_value,
-                'cohens_d': cohens_d,
-                'significant': p_value < 0.05,
                 'mean_a': mean_a,
                 'mean_b': mean_b,
                 'std_a': std_a,
                 'std_b': std_b,
-                'n': len(condition_a_data)
+                'n': len(condition_a_data),
+                # Primary test results (chosen based on normality)
+                'p_value': primary_p_value,
+                'effect_size': primary_effect_size,
+                'effect_size_name': primary_effect_name,
+                'test_used': primary_test,
+                'significant': primary_p_value < 0.05,
+                # Parametric test results
+                'parametric': {
+                    'test_name': 't-test',
+                    'statistic': t_stat,
+                    'p_value': t_p_value,
+                    'cohens_d': cohens_d,
+                    'significant': t_p_value < 0.05
+                },
+                # Non-parametric test results
+                'nonparametric': {
+                    'test_name': 'Wilcoxon signed-rank',
+                    'statistic': w_stat,
+                    'p_value': w_p_value,
+                    'r_effect_size': r_effect_size,
+                    'significant': w_p_value < 0.05
+                },
+                # Normality testing
+                'normality': {
+                    'is_normal': is_normal,
+                    'shapiro_p_a': norm_p_a,
+                    'shapiro_p_b': norm_p_b,
+                    'shapiro_p_diff': norm_p_diff,
+                    'recommended_test': primary_test
+                }
             }
         
         return results

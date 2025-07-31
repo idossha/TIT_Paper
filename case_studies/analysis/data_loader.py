@@ -144,13 +144,23 @@ class DataLoader:
         if 'Normal_Max' in df.columns:
             columns.append('Normal_Max')
             
-        # Add ROI_Focality if available (preferred over Normal_Focality)
-        if 'ROI_Focality' in df.columns:
-            columns.append('ROI_Focality')
-        elif 'Normal_Focality' in df.columns:
-            columns.append('Normal_Focality')
-        elif 'focality' in df.columns:
-            columns.append('focality')
+        # Add focality based on optimization type
+        if optimization_type and 'normal' in optimization_type.lower():
+            # For normal optimization, prefer Normal_Focality
+            if 'Normal_Focality' in df.columns:
+                columns.append('Normal_Focality')
+            elif 'ROI_Focality' in df.columns:
+                columns.append('ROI_Focality')
+            elif 'focality' in df.columns:
+                columns.append('focality')
+        else:
+            # For max optimization, prefer ROI_Focality
+            if 'ROI_Focality' in df.columns:
+                columns.append('ROI_Focality')
+            elif 'Normal_Focality' in df.columns:
+                columns.append('Normal_Focality')
+            elif 'focality' in df.columns:
+                columns.append('focality')
         
         # Select columns
         df = df[columns].copy()

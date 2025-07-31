@@ -12,10 +12,13 @@ Variables Analyzed: ROI_Mean, ROI_Max, ROI_Focality
 RESULTS:
 ------------------------------
 ROI_MEAN: lower in condition B (-0.000 = -0.1% = -0.01 SD)
-  p = 0.972, Cohen's d = -0.01 - Not significant
+  p = 0.972 (t-test), Cohen's d = -0.01 - Not significant
+  Data: Normal (used t-test)
 
 ROI_MAX: higher in condition B (0.005 = +1.2% = +0.06 SD)
-  p = 0.815, Cohen's d = 0.04 - Not significant
+  p = 0.815 (t-test), Cohen's d = 0.04 - Not significant
+  Data: Normal (used t-test)
 
 ROI_FOCALITY: lower in condition B (-0.100 = -7.1% = -0.62 SD)
-  p = 0.019, Cohen's d = -0.40 - **SIGNIFICANT**
+  p = 0.019 (t-test), Cohen's d = -0.40 - **SIGNIFICANT**
+  Data: Normal (used t-test)

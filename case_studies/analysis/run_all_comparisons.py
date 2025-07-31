@@ -66,7 +66,7 @@ def run_comparison_analysis(target: str, optimization_type: str,
     print("\n2. Performing statistical analysis...")
     try:
         analyzer = StatisticalAnalyzer()
-        comparison_results = analyzer.paired_comparison_analysis(df)
+        comparison_results = analyzer.paired_comparison_analysis(df, optimization_type=optimization_type)
         
         # Create summary report
         summary_report = create_comparison_summary_report(
@@ -89,23 +89,37 @@ def run_comparison_analysis(target: str, optimization_type: str,
     print("\n3. Creating visualizations...")
     try:
         plotter = PublicationPlotter()
+        
+        # Create main comparison plot
         fig = plotter.create_paired_comparison_plot(
             df, title=f"Comparison: {condition_a} vs {condition_b} - {target} ({optimization_type})",
-            stats_results=comparison_results
+            stats_results=comparison_results, optimization_type=optimization_type
         )
         
-        print(f"   ✓ Created 1 figure")
+        # Create normality check plot
+        norm_fig = plotter.create_normality_check_plot(
+            df, title=f"Normality Check: {condition_a} vs {condition_b} - {target} ({optimization_type})",
+            stats_results=comparison_results, optimization_type=optimization_type
+        )
+        
+        print(f"   ✓ Created 2 figures")
         
         if save_plots:
             # Create results directory if it doesn't exist
             results_dir = Path(__file__).parent.parent / 'results' / 'figures'
             results_dir.mkdir(parents=True, exist_ok=True)
             
-            # Save figure
+            # Save main comparison figure
             filename = f"comparison_{comparison_name}_{target}_{optimization_type}.png"
             filepath = results_dir / filename
             fig.savefig(filepath, dpi=300, bbox_inches='tight')
             print(f"   ✓ Saved: {filename}")
+            
+            # Save normality check figure
+            norm_filename = f"normality_{comparison_name}_{target}_{optimization_type}.png"
+            norm_filepath = results_dir / norm_filename
+            norm_fig.savefig(norm_filepath, dpi=300, bbox_inches='tight')
+            print(f"   ✓ Saved: {norm_filename}")
         
     except Exception as e:
         print(f"   ✗ Error creating visualizations: {e}")
@@ -192,11 +206,15 @@ RESULTS:
         direction = "higher" if stats['diff'] > 0 else "lower"
         percent_change = stats['percent_change']
         p_val = stats['p_value']
-        cohens_d = stats['cohens_d']
+        effect_size = stats['effect_size']
+        effect_size_name = stats['effect_size_name']
+        test_used = stats['test_used']
         significant = "**SIGNIFICANT**" if stats['significant'] else "Not significant"
+        normality_status = "Normal" if stats['normality']['is_normal'] else "Non-normal"
         
         report += f"\n{var.upper()}: {direction} in condition B ({stats['diff']:.3f} = {percent_change:+.1f}% = {stats['z_score']:+.2f} SD)"
-        report += f"\n  p = {p_val:.3f}, Cohen's d = {cohens_d:.2f} - {significant}\n"
+        report += f"\n  p = {p_val:.3f} ({test_used}), {effect_size_name} = {effect_size:.2f} - {significant}"
+        report += f"\n  Data: {normality_status} (used {stats['normality']['recommended_test']})\n"
 
     return report
 

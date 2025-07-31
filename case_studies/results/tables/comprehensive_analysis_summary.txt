@@ -1,0 +1,26 @@
+TI-TOOLBOX RESEARCH - COMPREHENSIVE ANALYSIS SUMMARY
+================================================================================
+
+Generated: 2025-07-30 19:57:49
+Q3 analyses: 3
+Comparison analyses: 9
+Complete analyses: 4
+
+Q3: Demographic Factors
+--------------------------------------------------
+  Left_Insula (max): 36 participants
+  Left_Insula (normal): 36 participants
+  Right_Hippocampus (max): 36 participants
+
+comparisons: Pairwise Comparisons
+--------------------------------------------------
+  Left_Insula (max): 74 participants
+  Left_Insula (normal): 74 participants
+  Right_Hippocampus (max): 74 participants
+  Left_Insula (max): 74 participants
+  Left_Insula (normal): 74 participants
+  Right_Hippocampus (max): 74 participants
+  Left_Insula (max): 74 participants
+  Left_Insula (normal): 74 participants
+  Right_Hippocampus (max): 74 participants
+

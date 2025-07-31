@@ -132,7 +132,8 @@ class PublicationPlotter:
     def create_paired_comparison_plot(self, df: pd.DataFrame, 
                                     variables: List[str] = None,
                                     title: str = "Paired Comparison Results",
-                                    stats_results: Dict = None) -> plt.Figure:
+                                    stats_results: Dict = None,
+                                    optimization_type: str = None) -> plt.Figure:
         """
         Create publication-ready paired comparison plots following journal standards.
         
@@ -146,7 +147,14 @@ class PublicationPlotter:
             plt.Figure: Publication-ready figure
         """
         if variables is None:
-            variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality', 'Normal_Mean', 'Normal_Max']
+            # Select variables based on optimization type
+            if optimization_type and 'max' in optimization_type.lower():
+                variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality']
+            elif optimization_type and 'normal' in optimization_type.lower():
+                variables = ['Normal_Mean', 'Normal_Max', 'Normal_Focality']
+            else:
+                # Fallback to all available variables
+                variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality', 'Normal_Mean', 'Normal_Max']
         
         # Filter to only include variables that exist in the dataframe
         variables = [var for var in variables if var in df.columns]
@@ -174,49 +182,71 @@ class PublicationPlotter:
             means = pivot_df.mean()
             sems = pivot_df.sem()
             
-            # Create bar plot for means with professional styling
-            x_pos = np.arange(len(condition_names))
-            bar_width = 0.6
+            # Create box plot with professional styling
+            # Prepare data for box plot
+            plot_data = []
+            plot_labels = []
+            plot_colors = []
             
-            # Use condition-specific colors
-            bar_colors = []
             for condition in condition_names:
+                plot_data.append(pivot_df[condition])
+                plot_labels.append(condition)
+                
+                # Use condition-specific colors
                 if 'ernie' in condition.lower():
-                    bar_colors.append(self.condition_colors['ernie'])
+                    plot_colors.append(self.condition_colors['ernie'])
                 elif 'mapped' in condition.lower():
-                    bar_colors.append(self.condition_colors['mapped'])
+                    plot_colors.append(self.condition_colors['mapped'])
                 elif 'opt' in condition.lower():
-                    bar_colors.append(self.condition_colors['optimized'])
+                    plot_colors.append(self.condition_colors['optimized'])
                 elif 'individual' in condition.lower():
-                    bar_colors.append(self.condition_colors['individual'])
+                    plot_colors.append(self.condition_colors['individual'])
                 elif 'generalized' in condition.lower():
-                    bar_colors.append(self.condition_colors['generalized'])
+                    plot_colors.append(self.condition_colors['generalized'])
                 else:
-                    bar_colors.append(self.colors['secondary'])
+                    plot_colors.append(self.colors['secondary'])
             
-            bars = ax.bar(x_pos, means, yerr=sems, capsize=8,
-                         color=bar_colors, alpha=0.8, width=bar_width,
-                         edgecolor=self.colors['primary'], linewidth=1.2)
+            # Create box plot with improved styling
+            bp = ax.boxplot(plot_data, patch_artist=True, 
+                          medianprops={'color': self.colors['primary'], 'linewidth': 2},
+                          flierprops={'marker': 'o', 'markerfacecolor': self.colors['primary'], 
+                                    'markeredgecolor': self.colors['primary'], 'markersize': 3, 'alpha': 0.6},
+                          whiskerprops={'color': self.colors['primary'], 'linewidth': 1.5},
+                          capprops={'color': self.colors['primary'], 'linewidth': 1.5},
+                          boxprops={'linewidth': 1.5},
+                          widths=0.6)
             
-            # Add individual data points with professional styling
-            for j, condition in enumerate(condition_names):
-                # Add slight jitter for better visibility
-                jitter = np.random.normal(0, 0.02, len(pivot_df))
-                ax.scatter([j + jitter], pivot_df[condition], 
-                          color=self.colors['primary'], alpha=0.6, s=30, 
-                          zorder=3, edgecolors='white', linewidth=0.5)
+            # Color the boxes with better alpha
+            for patch, color in zip(bp['boxes'], plot_colors):
+                patch.set_facecolor(color)
+                patch.set_alpha(0.6)
+                patch.set_edgecolor(self.colors['primary'])
             
-            # Add connecting lines for paired data
-            for _, row in pivot_df.iterrows():
-                ax.plot([0, 1], [row.iloc[0], row.iloc[1]], 
-                       color=self.colors['neutral'], alpha=0.4, linewidth=1,
-                       zorder=1)
+            # Add individual data points with better jitter and styling
+            np.random.seed(42)  # For reproducible jitter
+            for i, (data, color) in enumerate(zip(plot_data, plot_colors)):
+                x = np.random.normal(i + 1, 0.03, size=len(data))
+                ax.scatter(x, data, alpha=0.5, s=15, c=color, zorder=3, 
+                          edgecolors='white', linewidths=0.3)
+                
+            # Set x-axis labels with better positioning
+            ax.set_xticks(range(1, len(plot_labels) + 1))
+            ax.set_xticklabels(plot_labels, rotation=0, ha='center')
+            
+            # Add connecting lines for paired data (only if exactly 2 conditions)
+            if len(condition_names) == 2:
+                for _, row in pivot_df.iterrows():
+                    ax.plot([1, 2], [row.iloc[0], row.iloc[1]], 
+                           color=self.colors['neutral'], alpha=0.3, linewidth=0.8,
+                           zorder=1)
             
             # Add statistical information if available
             if stats_results and var in stats_results:
                 stats = stats_results[var]
                 p_val = stats['p_value']
-                cohens_d = stats['cohens_d']
+                effect_size = stats['effect_size']
+                effect_size_name = stats['effect_size_name']
+                test_used = stats['test_used']
                 percent_change = stats['percent_change']
                 
                 # Significance indicator with professional styling
@@ -233,30 +263,42 @@ class PublicationPlotter:
                     sig_text = "n.s."
                     sig_color = self.colors['primary']
                 
-                # Add statistical annotation above bars with proper spacing
-                y_max = max(means) + max(sems)
-                y_range = ax.get_ylim()[1] - ax.get_ylim()[0]
+                # Add statistical annotation above boxes with proper spacing
+                y_max = max([max(data) for data in plot_data])
+                y_min = min([min(data) for data in plot_data])
+                y_range = y_max - y_min
                 y_text = y_max + y_range * 0.1
                 
-                # Add statistical text with improved spacing (no bracket lines)
-                ax.text(0.5, y_text + y_range * 0.03, sig_text, ha='center', va='bottom', 
-                       fontsize=14, fontweight='bold', color=sig_color)
-                ax.text(0.5, y_text + y_range * 0.10, f'p = {p_val:.3f}', ha='center', va='bottom', 
-                       fontsize=10, color=self.colors['primary'])
-                ax.text(0.5, y_text + y_range * 0.16, f'd = {cohens_d:.2f}', ha='center', va='bottom', 
-                       fontsize=10, fontweight='bold', color=self.colors['primary'])
-                ax.text(0.5, y_text + y_range * 0.22, f'{percent_change:+.1f}%', ha='center', va='bottom', 
-                       fontsize=10, fontweight='bold', color=self.colors['primary'])
+                # Position text in center of the plot
+                x_center = (len(plot_data) + 1) / 2
+                
+                # Add statistical text with improved spacing
+                ax.text(x_center, y_text + y_range * 0.03, sig_text, ha='center', va='bottom', 
+                       fontsize=12, fontweight='bold', color=sig_color)
+                ax.text(x_center, y_text + y_range * 0.08, f'p = {p_val:.3f} ({test_used})', ha='center', va='bottom', 
+                       fontsize=9, color=self.colors['primary'])
+                ax.text(x_center, y_text + y_range * 0.13, f'{effect_size_name} = {effect_size:.2f}', ha='center', va='bottom', 
+                       fontsize=9, color=self.colors['primary'])
+                ax.text(x_center, y_text + y_range * 0.18, f'{percent_change:+.1f}%', ha='center', va='bottom', 
+                       fontsize=9, fontweight='bold', color=self.colors['primary'])
+                
+                # Add normality test results if available
+                if 'normality' in stats:
+                    norm_info = stats['normality']
+                    norm_text = "Normal" if norm_info['is_normal'] else "Non-normal"
+                    norm_color = self.colors['success'] if norm_info['is_normal'] else self.colors['warning']
+                    ax.text(x_center, y_text + y_range * 0.23, f'Data: {norm_text}', ha='center', va='bottom', 
+                           fontsize=8, color=norm_color, style='italic')
             
             # Customize plot with professional styling
-            ax.set_xlim(-0.5, len(condition_names) - 0.5)
+            ax.set_xlim(0.5, len(condition_names) + 0.5)
             ax.set_xlabel('Condition', fontsize=12, fontweight='bold', color=self.colors['primary'])
             ax.set_ylabel(f'{var} (V/m)', fontsize=12, fontweight='bold', color=self.colors['primary'])
             # Set title above the values
             ax.set_title(f'{var}', fontsize=13, fontweight='bold', 
                         color=self.colors['primary'], pad=40)
-            ax.set_xticks(x_pos)
-            ax.set_xticklabels(condition_names, fontsize=12, fontweight='bold', color=self.colors['primary'])
+            ax.set_xticks(range(1, len(plot_labels) + 1))
+            ax.set_xticklabels(plot_labels, fontsize=10, fontweight='bold', color=self.colors['primary'])
             
             # Set y-axis ticks and labels
             ax.tick_params(axis='y', labelsize=10, color=self.colors['primary'])
@@ -298,6 +340,100 @@ class PublicationPlotter:
         # Adjust layout for professional appearance
         plt.tight_layout()
         plt.subplots_adjust(bottom=0.15, top=0.85)  # Make room for legend and title
+        
+        return fig
+    
+    def create_normality_check_plot(self, df: pd.DataFrame, 
+                                   variables: List[str] = None,
+                                   title: str = "Normality Check",
+                                   stats_results: Dict = None,
+                                   optimization_type: str = None) -> plt.Figure:
+        """
+        Create normality check plots with Q-Q plots and histograms.
+        
+        Args:
+            df (pd.DataFrame): Dataframe with 'condition' column and variables
+            variables (List[str]): Variables to check (default: ['ROI_Mean', 'ROI_Max', 'ROI_Focality'])
+            title (str): Plot title
+            stats_results (Dict): Statistical results containing normality tests
+            
+        Returns:
+            plt.Figure: Normality check figure
+        """
+        if variables is None:
+            # Select variables based on optimization type
+            if optimization_type and 'max' in optimization_type.lower():
+                variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality']
+            elif optimization_type and 'normal' in optimization_type.lower():
+                variables = ['Normal_Mean', 'Normal_Max', 'Normal_Focality']
+            else:
+                # Fallback to all available variables
+                variables = ['ROI_Mean', 'ROI_Max', 'ROI_Focality', 'Normal_Mean', 'Normal_Max']
+        
+        # Filter to only include variables that exist in the dataframe
+        variables = [var for var in variables if var in df.columns]
+        
+        self.setup_publication_style()
+        
+        # Calculate figure size
+        n_vars = len(variables)
+        fig_width = max(4 * n_vars, 12)
+        fig_height = 8
+        
+        fig, axes = plt.subplots(2, n_vars, figsize=(fig_width, fig_height), dpi=self.dpi)
+        
+        if n_vars == 1:
+            axes = axes.reshape(-1, 1)
+        
+        for i, var in enumerate(variables):
+            # Get paired data for each participant
+            pivot_df = df.pivot(index='Subject_ID', columns='condition', values=var).dropna()
+            condition_names = pivot_df.columns
+            
+            # Calculate differences for paired data
+            if len(condition_names) == 2:
+                differences = pivot_df.iloc[:, 1] - pivot_df.iloc[:, 0]
+                
+                # Top plot: Q-Q plot for differences
+                ax_qq = axes[0, i]
+                from scipy import stats as scipy_stats
+                scipy_stats.probplot(differences, dist="norm", plot=ax_qq)
+                ax_qq.set_title(f'{var} - Q-Q Plot (Differences)', fontsize=10, fontweight='bold')
+                ax_qq.get_lines()[0].set_markerfacecolor(self.colors['secondary'])
+                ax_qq.get_lines()[0].set_markeredgecolor(self.colors['primary'])
+                ax_qq.get_lines()[0].set_markersize(4)
+                ax_qq.get_lines()[1].set_color(self.colors['error'])
+                
+                # Bottom plot: Histogram of differences
+                ax_hist = axes[1, i]
+                ax_hist.hist(differences, bins=10, alpha=0.7, color=self.colors['secondary'],
+                           edgecolor=self.colors['primary'], density=True)
+                
+                # Overlay normal curve
+                x = np.linspace(differences.min(), differences.max(), 100)
+                y = scipy_stats.norm.pdf(x, differences.mean(), differences.std())
+                ax_hist.plot(x, y, color=self.colors['error'], linewidth=2, label='Normal fit')
+                
+                ax_hist.set_title(f'{var} - Distribution (Differences)', fontsize=10, fontweight='bold')
+                ax_hist.set_xlabel('Difference', fontsize=9)
+                ax_hist.set_ylabel('Density', fontsize=9)
+                ax_hist.legend()
+                
+                # Add normality test results if available
+                if stats_results and var in stats_results and 'normality' in stats_results[var]:
+                    norm_info = stats_results[var]['normality']
+                    p_diff = norm_info['shapiro_p_diff']
+                    
+                    # Add text annotation
+                    text = f"Shapiro-Wilk p = {p_diff:.3f}"
+                    color = self.colors['success'] if p_diff > 0.05 else self.colors['error']
+                    ax_hist.text(0.05, 0.95, text, transform=ax_hist.transAxes,
+                               fontsize=8, verticalalignment='top', color=color,
+                               bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+        
+        plt.suptitle(title, fontsize=14, fontweight='bold', y=0.96)
+        plt.tight_layout()
+        plt.subplots_adjust(top=0.90)  # Add more padding between title and subplots
         
         return fig
     
@@ -413,13 +549,13 @@ class PublicationPlotter:
                 
                 plot_count += 1
         
-        # Add overall title with professional styling - positioned higher
+        # Add overall title with professional styling
         fig.suptitle(title, fontsize=16, fontweight='bold', 
-                    color=self.colors['primary'], y=1.08)
+                    color=self.colors['primary'], y=0.95)
         
         # Adjust layout
         plt.tight_layout()
-        plt.subplots_adjust(top=0.85)
+        plt.subplots_adjust(top=0.88)
         
         return fig
     

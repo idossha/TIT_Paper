@@ -6,7 +6,7 @@
     "optimization_type": "normal",
     "condition_a": "ernie",
     "condition_b": "optimized",
-    "timestamp": "2025-07-30T00:34:51.574765",
+    "timestamp": "2025-07-30T19:57:44.269173",
     "n_participants": 74
   },
   "data_quality": {
@@ -17,78 +17,121 @@
       "ROI_Max": 0,
       "Normal_Mean": 0,
       "Normal_Max": 0,
-      "ROI_Focality": 0,
+      "Normal_Focality": 0,
       "condition": 0
     },
     "duplicates": "0",
     "numeric_columns": []
   },
   "statistical_results": {
-    "ROI_Mean": {
-      "diff": 0.015979702702702825,
-      "percent_change": 5.297218115844687,
-      "z_score": 0.4070314736196223,
-      "p_value": 2.5408507106052527e-10,
-      "cohens_d": 1.4228351435371003,
-      "significant": "True",
-      "mean_a": 0.3016621621621621,
-      "mean_b": 0.3176418648648649,
-      "std_a": 0.03799339706194099,
-      "std_b": 0.04048531593276352,
-      "n": 37
-    },
-    "ROI_Max": {
-      "diff": 0.027317972972973004,
-      "percent_change": 6.165876608411315,
-      "z_score": 0.5096572578109992,
-      "p_value": 2.417534410932604e-07,
-      "cohens_d": 1.0429399210825316,
-      "significant": "True",
-      "mean_a": 0.4430509189189189,
-      "mean_b": 0.4703688918918919,
-      "std_a": 0.050545553729822314,
-      "std_b": 0.05649081068623451,
-      "n": 37
-    },
-    "ROI_Focality": {
-      "diff": -0.027212486486486442,
-      "percent_change": -1.7864617356202606,
-      "z_score": -0.3291618736667277,
-      "p_value": 0.07466260433481155,
-      "cohens_d": -0.3017987372155041,
-      "significant": "False",
-      "mean_a": 1.5232616486486485,
-      "mean_b": 1.496049162162162,
-      "std_a": 0.06991971114198539,
-      "std_b": 0.0937046920011401,
-      "n": 37
-    },
     "Normal_Mean": {
       "diff": 0.0101475675675676,
       "percent_change": 4.706240400064293,
       "z_score": 0.3723035466561875,
-      "p_value": 1.5533419221990466e-10,
-      "cohens_d": 1.4513876262867598,
-      "significant": "True",
       "mean_a": 0.2156194054054054,
       "mean_b": 0.225766972972973,
       "std_a": 0.026230849538768766,
       "std_b": 0.02824428773465775,
-      "n": 37
+      "n": 37,
+      "p_value": 1.5533419221990466e-10,
+      "effect_size": 1.4513876262867598,
+      "effect_size_name": "Cohen's d",
+      "test_used": "t-test",
+      "significant": "True",
+      "parametric": {
+        "test_name": "t-test",
+        "statistic": 8.82844627011558,
+        "p_value": 1.5533419221990466e-10,
+        "cohens_d": 1.4513876262867598,
+        "significant": "True"
+      },
+      "nonparametric": {
+        "test_name": "Wilcoxon signed-rank",
+        "statistic": 24.0,
+        "p_value": 1.1088559404015541e-08,
+        "r_effect_size": 0.8122557064065837,
+        "significant": "True"
+      },
+      "normality": {
+        "is_normal": true,
+        "shapiro_p_a": 0.20513665424655309,
+        "shapiro_p_b": 0.3132512575284876,
+        "shapiro_p_diff": 0.24844049848486374,
+        "recommended_test": "t-test"
+      }
     },
     "Normal_Max": {
       "diff": 0.02057118918918921,
       "percent_change": 5.398404835892212,
       "z_score": 0.40899101241658614,
-      "p_value": 3.4783796904097457e-06,
-      "cohens_d": 0.9003821067151178,
-      "significant": "True",
       "mean_a": 0.38106051351351355,
       "mean_b": 0.40163170270270276,
       "std_a": 0.05091800804759093,
       "std_b": 0.04966906112565048,
-      "n": 37
+      "n": 37,
+      "p_value": 3.4783796904097457e-06,
+      "effect_size": 0.9003821067151178,
+      "effect_size_name": "Cohen's d",
+      "test_used": "t-test",
+      "significant": "True",
+      "parametric": {
+        "test_name": "t-test",
+        "statistic": 5.476810541677692,
+        "p_value": 3.4783796904097457e-06,
+        "cohens_d": 0.9003821067151178,
+        "significant": "True"
+      },
+      "nonparametric": {
+        "test_name": "Wilcoxon signed-rank",
+        "statistic": 71.0,
+        "p_value": 4.551751771941781e-06,
+        "r_effect_size": 0.6956877118993793,
+        "significant": "True"
+      },
+      "normality": {
+        "is_normal": true,
+        "shapiro_p_a": 0.07541947097141789,
+        "shapiro_p_b": 0.109941527178689,
+        "shapiro_p_diff": 0.88149437713837,
+        "recommended_test": "t-test"
+      }
+    },
+    "Normal_Focality": {
+      "diff": -0.0775582972972968,
+      "percent_change": -3.311500436247107,
+      "z_score": -0.592369288120474,
+      "mean_a": 2.342089297297297,
+      "mean_b": 2.2645310000000003,
+      "std_a": 0.10278852234749453,
+      "std_b": 0.15401073660210257,
+      "n": 37,
+      "p_value": 0.002691233252863509,
+      "effect_size": -0.5299385283896576,
+      "effect_size_name": "Cohen's d",
+      "test_used": "t-test",
+      "significant": "True",
+      "parametric": {
+        "test_name": "t-test",
+        "statistic": -3.2234902238499883,
+        "p_value": 0.002691233252863509,
+        "cohens_d": -0.5299385283896576,
+        "significant": "True"
+      },
+      "nonparametric": {
+        "test_name": "Wilcoxon signed-rank",
+        "statistic": 140.0,
+        "p_value": 0.000996397517155856,
+        "r_effect_size": 0.5245559752824196,
+        "significant": "True"
+      },
+      "normality": {
+        "is_normal": true,
+        "shapiro_p_a": 0.5677476440222807,
+        "shapiro_p_b": 0.2048653200824326,
+        "shapiro_p_diff": 0.05703619831984008,
+        "recommended_test": "t-test"
+      }
     }
   },
-  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: normal\nComparison: ernie vs optimized\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: ROI_Mean, ROI_Max, ROI_Focality, Normal_Mean, Normal_Max\n\nRESULTS:\n------------------------------\nROI_MEAN: higher in condition B (0.016 = +5.3% = +0.41 SD)\n  p = 0.000, Cohen's d = 1.42 - **SIGNIFICANT**\n\nROI_MAX: higher in condition B (0.027 = +6.2% = +0.51 SD)\n  p = 0.000, Cohen's d = 1.04 - **SIGNIFICANT**\n\nROI_FOCALITY: lower in condition B (-0.027 = -1.8% = -0.33 SD)\n  p = 0.075, Cohen's d = -0.30 - Not significant\n\nNORMAL_MEAN: higher in condition B (0.010 = +4.7% = +0.37 SD)\n  p = 0.000, Cohen's d = 1.45 - **SIGNIFICANT**\n\nNORMAL_MAX: higher in condition B (0.021 = +5.4% = +0.41 SD)\n  p = 0.000, Cohen's d = 0.90 - **SIGNIFICANT**\n"
+  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: normal\nComparison: ernie vs optimized\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: Normal_Mean, Normal_Max, Normal_Focality\n\nRESULTS:\n------------------------------\nNORMAL_MEAN: higher in condition B (0.010 = +4.7% = +0.37 SD)\n  p = 0.000 (t-test), Cohen's d = 1.45 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_MAX: higher in condition B (0.021 = +5.4% = +0.41 SD)\n  p = 0.000 (t-test), Cohen's d = 0.90 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_FOCALITY: lower in condition B (-0.078 = -3.3% = -0.59 SD)\n  p = 0.003 (t-test), Cohen's d = -0.53 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n"
 }
