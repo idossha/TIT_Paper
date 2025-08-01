@@ -19,6 +19,7 @@ seaborn>=0.11.0
 # Additional utilities
 pathlib2>=2.3.0; python_version < "3.4"
 typing-extensions>=4.0.0; python_version < "3.8"
+PyYAML>=6.0
 
 # Optional: For enhanced plotting and analysis
 # plotly>=5.0.0
