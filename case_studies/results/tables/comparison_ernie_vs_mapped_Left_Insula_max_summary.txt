@@ -1,24 +1,7 @@
 STATISTICAL ANALYSIS REPORT
 ==================================================
 
-Analysis Type: Comparison
+Analysis Type: pairwise
 Target: Left_Insula
 Optimization: max
-Comparison: ernie vs mapped
 
-Study Design: Within-subjects comparison
-Variables Analyzed: ROI_Mean, ROI_Max, ROI_Focality
-
-RESULTS:
-------------------------------
-ROI_MEAN: higher in condition B (0.008 = +2.6% = +0.22 SD)
-  p = 0.000 (Wilcoxon), r = 0.75 - **SIGNIFICANT**
-  Data: Non-normal (used Wilcoxon)
-
-ROI_MAX: higher in condition B (0.014 = +3.2% = +0.28 SD)
-  p = 0.000 (t-test), Cohen's d = 0.74 - **SIGNIFICANT**
-  Data: Normal (used t-test)
-
-ROI_FOCALITY: higher in condition B (0.001 = +0.1% = +0.01 SD)
-  p = 0.875 (Wilcoxon), r = 0.07 - Not significant
-  Data: Non-normal (used Wilcoxon)

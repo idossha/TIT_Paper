@@ -1,16 +1,136 @@
 {
   "analysis_info": {
-    "target": "Left_Insula",
+    "region": "Left_Insula",
     "optimization_type": "normal",
     "questions": [
       "Q3",
-      "comparisons"
+      "pairwise"
     ],
-    "timestamp": "2025-07-30T19:57:42.688292"
+    "timestamp": "2025-08-01T17:22:22.725274",
+    "config_file": "settings.yaml"
   },
   "results": {
-    "comparisons": {
+    "Q3": {
+      "analysis_type": "Q3_demographics",
+      "target": "Left_Insula",
+      "optimization_type": "normal",
+      "correlation_results": {
+        "ROI_Mean": {
+          "age": {
+            "correlation": -0.18395162153426142,
+            "p_value": 0.05668485598535412,
+            "significant": "False",
+            "n": 108
+          },
+          "bone_volume": {
+            "correlation": -0.6603145590117108,
+            "p_value": 7.596652426775497e-15,
+            "significant": "True",
+            "n": 108
+          },
+          "bone_mean_thick": {
+            "correlation": -0.6016275443743428,
+            "p_value": 5.743860505410414e-12,
+            "significant": "True",
+            "n": 108
+          }
+        },
+        "ROI_Max": {
+          "age": {
+            "correlation": 0.06467176613967593,
+            "p_value": 0.5060730187834516,
+            "significant": "False",
+            "n": 108
+          },
+          "bone_volume": {
+            "correlation": -0.5129450478812534,
+            "p_value": 1.3798383808300356e-08,
+            "significant": "True",
+            "n": 108
+          },
+          "bone_mean_thick": {
+            "correlation": -0.41815674388109875,
+            "p_value": 6.694980913264833e-06,
+            "significant": "True",
+            "n": 108
+          }
+        },
+        "Normal_Mean": {
+          "age": {
+            "correlation": -0.12942962716587414,
+            "p_value": 0.1818620557815507,
+            "significant": "False",
+            "n": 108
+          },
+          "bone_volume": {
+            "correlation": -0.692352778797847,
+            "p_value": 1.0483271667155174e-16,
+            "significant": "True",
+            "n": 108
+          },
+          "bone_mean_thick": {
+            "correlation": -0.6234535446998892,
+            "p_value": 5.741723616126786e-13,
+            "significant": "True",
+            "n": 108
+          }
+        },
+        "Normal_Max": {
+          "age": {
+            "correlation": -0.006364860066894046,
+            "p_value": 0.9478742026888841,
+            "significant": "False",
+            "n": 108
+          },
+          "bone_volume": {
+            "correlation": -0.5913539193111674,
+            "p_value": 1.6005801514417236e-11,
+            "significant": "True",
+            "n": 108
+          },
+          "bone_mean_thick": {
+            "correlation": -0.5820513162732817,
+            "p_value": 3.926272797744805e-11,
+            "significant": "True",
+            "n": 108
+          }
+        }
+      },
+      "regression_results": {
+        "r_squared": 0.4435924500647662,
+        "adjusted_r_squared": 0.427542232278173,
+        "f_statistic": 27.637783858316123,
+        "f_p_value": 3.1808955157954495e-13,
+        "coefficients": {
+          "const": 0.5094408276217244,
+          "age": -0.0003175062226574685,
+          "bone_volume": -0.0005202485923890097,
+          "bone_mean_thick": -0.009016349467195733
+        },
+        "p_values": {
+          "const": 7.551891212718213e-34,
+          "age": 0.2911536120607888,
+          "bone_volume": 0.0003992365990792238,
+          "bone_mean_thick": 0.5867510746902328
+        },
+        "standard_errors": {
+          "const": 0.028200104761803534,
+          "age": 0.0002992555808489066,
+          "bone_volume": 0.00014217393403333431,
+          "bone_mean_thick": 0.016536264450353458
+        },
+        "n": 108,
+        "model_summary": "                            OLS Regression Results                            \n==============================================================================\nDep. Variable:               ROI_Mean   R-squared:                       0.444\nModel:                            OLS   Adj. R-squared:                  0.428\nMethod:                 Least Squares   F-statistic:                     27.64\nDate:                Fri, 01 Aug 2025   Prob (F-statistic):           3.18e-13\nTime:                        17:22:22   Log-Likelihood:                 230.41\nNo. Observations:                 108   AIC:                            -452.8\nDf Residuals:                     104   BIC:                            -442.1\nDf Model:                           3                                         \nCovariance Type:            nonrobust                                         \n===================================================================================\n                      coef    std err          t      P>|t|      [0.025      0.975]\n-----------------------------------------------------------------------------------\nconst               0.5094      0.028     18.065      0.000       0.454       0.565\nage                -0.0003      0.000     -1.061      0.291      -0.001       0.000\nbone_volume        -0.0005      0.000     -3.659      0.000      -0.001      -0.000\nbone_mean_thick    -0.0090      0.017     -0.545      0.587      -0.042       0.024\n==============================================================================\nOmnibus:                        0.347   Durbin-Watson:                   1.738\nProb(Omnibus):                  0.841   Jarque-Bera (JB):                0.515\nSkew:                          -0.067   Prob(JB):                        0.773\nKurtosis:                       2.689   Cond. No.                     3.35e+03\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n[2] The condition number is large, 3.35e+03. This might indicate that there are\nstrong multicollinearity or other numerical problems."
+      },
+      "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Q3\nTarget: Left_Insula\nOptimization: normal\n\nCORRELATION RESULTS:\n--------------------\nROI_Mean vs age: r = -0.184, p = 0.057 - Not significant\nROI_Mean vs bone_volume: r = -0.660, p = 0.000 - **SIGNIFICANT**\nROI_Mean vs bone_mean_thick: r = -0.602, p = 0.000 - **SIGNIFICANT**\nROI_Max vs age: r = 0.065, p = 0.506 - Not significant\nROI_Max vs bone_volume: r = -0.513, p = 0.000 - **SIGNIFICANT**\nROI_Max vs bone_mean_thick: r = -0.418, p = 0.000 - **SIGNIFICANT**\nNormal_Mean vs age: r = -0.129, p = 0.182 - Not significant\nNormal_Mean vs bone_volume: r = -0.692, p = 0.000 - **SIGNIFICANT**\nNormal_Mean vs bone_mean_thick: r = -0.623, p = 0.000 - **SIGNIFICANT**\nNormal_Max vs age: r = -0.006, p = 0.948 - Not significant\nNormal_Max vs bone_volume: r = -0.591, p = 0.000 - **SIGNIFICANT**\nNormal_Max vs bone_mean_thick: r = -0.582, p = 0.000 - **SIGNIFICANT**\n\nMULTIPLE REGRESSION RESULTS:\n-------------------------\nR\u00b2 = 0.444 (n = 108)\nF-statistic = 27.64, p = 0.000\n\nCoefficients:\n  const: 0.509 (p = 0.000) - **SIGNIFICANT**\n  age: -0.000 (p = 0.291) - Not significant\n  bone_volume: -0.001 (p = 0.000) - **SIGNIFICANT**\n  bone_mean_thick: -0.009 (p = 0.587) - Not significant\n"
+    },
+    "pairwise": {
       "ernie_vs_mapped": {
+        "analysis_type": "pairwise_comparisons",
+        "target": "Left_Insula",
+        "optimization_type": "normal",
+        "condition_a": "ernie",
+        "condition_b": "mapped",
         "comparison_results": {
           "Normal_Mean": {
             "diff": 0.0005682162162162219,
@@ -121,9 +241,14 @@
             }
           }
         },
-        "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: normal\nComparison: ernie vs mapped\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: Normal_Mean, Normal_Max, Normal_Focality\n\nRESULTS:\n------------------------------\nNORMAL_MEAN: higher in condition B (0.001 = +0.3% = +0.02 SD)\n  p = 0.575 (t-test), Cohen's d = 0.09 - Not significant\n  Data: Normal (used t-test)\n\nNORMAL_MAX: higher in condition B (0.013 = +3.4% = +0.27 SD)\n  p = 0.001 (Wilcoxon), r = 0.56 - **SIGNIFICANT**\n  Data: Non-normal (used Wilcoxon)\n\nNORMAL_FOCALITY: lower in condition B (-0.098 = -4.2% = -0.74 SD)\n  p = 0.000 (Wilcoxon), r = 0.65 - **SIGNIFICANT**\n  Data: Non-normal (used Wilcoxon)\n"
+        "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: pairwise\nTarget: Left_Insula\nOptimization: normal\n\n"
       },
       "ernie_vs_optimized": {
+        "analysis_type": "pairwise_comparisons",
+        "target": "Left_Insula",
+        "optimization_type": "normal",
+        "condition_a": "ernie",
+        "condition_b": "optimized",
         "comparison_results": {
           "Normal_Mean": {
             "diff": 0.0101475675675676,
@@ -234,9 +359,14 @@
             }
           }
         },
-        "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: normal\nComparison: ernie vs optimized\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: Normal_Mean, Normal_Max, Normal_Focality\n\nRESULTS:\n------------------------------\nNORMAL_MEAN: higher in condition B (0.010 = +4.7% = +0.37 SD)\n  p = 0.000 (t-test), Cohen's d = 1.45 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_MAX: higher in condition B (0.021 = +5.4% = +0.41 SD)\n  p = 0.000 (t-test), Cohen's d = 0.90 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_FOCALITY: lower in condition B (-0.078 = -3.3% = -0.59 SD)\n  p = 0.003 (t-test), Cohen's d = -0.53 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n"
+        "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: pairwise\nTarget: Left_Insula\nOptimization: normal\n\n"
       },
       "mapped_vs_optimized": {
+        "analysis_type": "pairwise_comparisons",
+        "target": "Left_Insula",
+        "optimization_type": "normal",
+        "condition_a": "mapped",
+        "condition_b": "optimized",
         "comparison_results": {
           "Normal_Mean": {
             "diff": 0.009579351351351378,
@@ -347,122 +477,8 @@
             }
           }
         },
-        "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: normal\nComparison: mapped vs optimized\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: Normal_Mean, Normal_Max, Normal_Focality\n\nRESULTS:\n------------------------------\nNORMAL_MEAN: higher in condition B (0.010 = +4.4% = +0.36 SD)\n  p = 0.000 (t-test), Cohen's d = 1.28 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_MAX: higher in condition B (0.007 = +1.9% = +0.16 SD)\n  p = 0.016 (t-test), Cohen's d = 0.42 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_FOCALITY: higher in condition B (0.021 = +0.9% = +0.13 SD)\n  p = 0.117 (Wilcoxon), r = 0.26 - Not significant\n  Data: Non-normal (used Wilcoxon)\n"
+        "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: pairwise\nTarget: Left_Insula\nOptimization: normal\n\n"
       }
-    },
-    "Q3": {
-      "analysis_type": "Q3_demographics",
-      "target": "Left_Insula",
-      "optimization_type": "normal",
-      "correlation_results": {
-        "ROI_Mean": {
-          "age": {
-            "correlation": -0.15004917437103957,
-            "p_value": 0.38240027140409605,
-            "significant": "False",
-            "n": 36
-          },
-          "bone_volume": {
-            "correlation": -0.64788770241478,
-            "p_value": 1.9385401579578278e-05,
-            "significant": "True",
-            "n": 36
-          },
-          "bone_mean_thick": {
-            "correlation": -0.5781640708415796,
-            "p_value": 0.00022156302611540246,
-            "significant": "True",
-            "n": 36
-          }
-        },
-        "ROI_Max": {
-          "age": {
-            "correlation": 0.0974999025423236,
-            "p_value": 0.5715947280842707,
-            "significant": "False",
-            "n": 36
-          },
-          "bone_volume": {
-            "correlation": -0.4836832467329565,
-            "p_value": 0.0028022669338381954,
-            "significant": "True",
-            "n": 36
-          },
-          "bone_mean_thick": {
-            "correlation": -0.3810522232539904,
-            "p_value": 0.021853882882702312,
-            "significant": "True",
-            "n": 36
-          }
-        },
-        "Normal_Mean": {
-          "age": {
-            "correlation": -0.11657522942708567,
-            "p_value": 0.4983547236463896,
-            "significant": "False",
-            "n": 36
-          },
-          "bone_volume": {
-            "correlation": -0.6825186201319748,
-            "p_value": 4.5341773341841575e-06,
-            "significant": "True",
-            "n": 36
-          },
-          "bone_mean_thick": {
-            "correlation": -0.6099588609958617,
-            "p_value": 7.833356413295332e-05,
-            "significant": "True",
-            "n": 36
-          }
-        },
-        "Normal_Max": {
-          "age": {
-            "correlation": 0.04909045086681921,
-            "p_value": 0.7761657875846886,
-            "significant": "False",
-            "n": 36
-          },
-          "bone_volume": {
-            "correlation": -0.5760908980373369,
-            "p_value": 0.0002362318221857841,
-            "significant": "True",
-            "n": 36
-          },
-          "bone_mean_thick": {
-            "correlation": -0.5562719761068757,
-            "p_value": 0.00042693475479459555,
-            "significant": "True",
-            "n": 36
-          }
-        }
-      },
-      "regression_results": {
-        "r_squared": 0.42196011442889236,
-        "adjusted_r_squared": 0.36776887515660106,
-        "f_statistic": 7.786500550553858,
-        "f_p_value": 0.0004841959041263945,
-        "coefficients": {
-          "const": 0.5101099813646598,
-          "age": -0.00019066952175945462,
-          "bone_volume": -0.0005778437970685377,
-          "bone_mean_thick": -0.003051219991819454
-        },
-        "p_values": {
-          "const": 7.170534377996355e-11,
-          "age": 0.7391714514450134,
-          "bone_volume": 0.03986817545957474,
-          "bone_mean_thick": 0.923123662361245
-        },
-        "standard_errors": {
-          "const": 0.053497834806840255,
-          "age": 0.000567711565772777,
-          "bone_volume": 0.0002697152262730631,
-          "bone_mean_thick": 0.03137060487397481
-        },
-        "n": 36,
-        "model_summary": "                            OLS Regression Results                            \n==============================================================================\nDep. Variable:               ROI_Mean   R-squared:                       0.422\nModel:                            OLS   Adj. R-squared:                  0.368\nMethod:                 Least Squares   F-statistic:                     7.787\nDate:                Wed, 30 Jul 2025   Prob (F-statistic):           0.000484\nTime:                        19:57:45   Log-Likelihood:                 74.969\nNo. Observations:                  36   AIC:                            -141.9\nDf Residuals:                      32   BIC:                            -135.6\nDf Model:                           3                                         \nCovariance Type:            nonrobust                                         \n===================================================================================\n                      coef    std err          t      P>|t|      [0.025      0.975]\n-----------------------------------------------------------------------------------\nconst               0.5101      0.053      9.535      0.000       0.401       0.619\nage                -0.0002      0.001     -0.336      0.739      -0.001       0.001\nbone_volume        -0.0006      0.000     -2.142      0.040      -0.001   -2.85e-05\nbone_mean_thick    -0.0031      0.031     -0.097      0.923      -0.067       0.061\n==============================================================================\nOmnibus:                        0.254   Durbin-Watson:                   1.696\nProb(Omnibus):                  0.881   Jarque-Bera (JB):                0.449\nSkew:                          -0.080   Prob(JB):                        0.799\nKurtosis:                       2.477   Cond. No.                     3.35e+03\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n[2] The condition number is large, 3.35e+03. This might indicate that there are\nstrong multicollinearity or other numerical problems."
-      },
-      "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Q3\nTarget: Left_Insula\nOptimization: normal\n\nCORRELATION RESULTS:\n--------------------\nROI_Mean vs age: r = -0.150, p = 0.382 - Not significant\nROI_Mean vs bone_volume: r = -0.648, p = 0.000 - **SIGNIFICANT**\nROI_Mean vs bone_mean_thick: r = -0.578, p = 0.000 - **SIGNIFICANT**\nROI_Max vs age: r = 0.097, p = 0.572 - Not significant\nROI_Max vs bone_volume: r = -0.484, p = 0.003 - **SIGNIFICANT**\nROI_Max vs bone_mean_thick: r = -0.381, p = 0.022 - **SIGNIFICANT**\nNormal_Mean vs age: r = -0.117, p = 0.498 - Not significant\nNormal_Mean vs bone_volume: r = -0.683, p = 0.000 - **SIGNIFICANT**\nNormal_Mean vs bone_mean_thick: r = -0.610, p = 0.000 - **SIGNIFICANT**\nNormal_Max vs age: r = 0.049, p = 0.776 - Not significant\nNormal_Max vs bone_volume: r = -0.576, p = 0.000 - **SIGNIFICANT**\nNormal_Max vs bone_mean_thick: r = -0.556, p = 0.000 - **SIGNIFICANT**\n\nMULTIPLE REGRESSION RESULTS:\n-------------------------\nR\u00b2 = 0.422 (n = 36)\nF-statistic = 7.79, p = 0.000\n\nCoefficients:\n  const: 0.510 (p = 0.000) - **SIGNIFICANT**\n  age: -0.000 (p = 0.739) - Not significant\n  bone_volume: -0.001 (p = 0.040) - **SIGNIFICANT**\n  bone_mean_thick: -0.003 (p = 0.923) - Not significant\n"
     }
   }
 }

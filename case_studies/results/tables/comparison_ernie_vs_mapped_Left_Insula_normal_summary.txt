@@ -1,24 +1,7 @@
 STATISTICAL ANALYSIS REPORT
 ==================================================
 
-Analysis Type: Comparison
+Analysis Type: pairwise
 Target: Left_Insula
 Optimization: normal
-Comparison: ernie vs mapped
 
-Study Design: Within-subjects comparison
-Variables Analyzed: Normal_Mean, Normal_Max, Normal_Focality
-
-RESULTS:
-------------------------------
-NORMAL_MEAN: higher in condition B (0.001 = +0.3% = +0.02 SD)
-  p = 0.575 (t-test), Cohen's d = 0.09 - Not significant
-  Data: Normal (used t-test)
-
-NORMAL_MAX: higher in condition B (0.013 = +3.4% = +0.27 SD)
-  p = 0.001 (Wilcoxon), r = 0.56 - **SIGNIFICANT**
-  Data: Non-normal (used Wilcoxon)
-
-NORMAL_FOCALITY: lower in condition B (-0.098 = -4.2% = -0.74 SD)
-  p = 0.000 (Wilcoxon), r = 0.65 - **SIGNIFICANT**
-  Data: Non-normal (used Wilcoxon)

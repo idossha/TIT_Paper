@@ -1,24 +1,7 @@
 STATISTICAL ANALYSIS REPORT
 ==================================================
 
-Analysis Type: Comparison
+Analysis Type: pairwise
 Target: Left_Insula
 Optimization: normal
-Comparison: mapped vs optimized
 
-Study Design: Within-subjects comparison
-Variables Analyzed: Normal_Mean, Normal_Max, Normal_Focality
-
-RESULTS:
-------------------------------
-NORMAL_MEAN: higher in condition B (0.010 = +4.4% = +0.36 SD)
-  p = 0.000 (t-test), Cohen's d = 1.28 - **SIGNIFICANT**
-  Data: Normal (used t-test)
-
-NORMAL_MAX: higher in condition B (0.007 = +1.9% = +0.16 SD)
-  p = 0.016 (t-test), Cohen's d = 0.42 - **SIGNIFICANT**
-  Data: Normal (used t-test)
-
-NORMAL_FOCALITY: higher in condition B (0.021 = +0.9% = +0.13 SD)
-  p = 0.117 (Wilcoxon), r = 0.26 - Not significant
-  Data: Non-normal (used Wilcoxon)

@@ -1,24 +1,7 @@
 STATISTICAL ANALYSIS REPORT
 ==================================================
 
-Analysis Type: Comparison
+Analysis Type: pairwise
 Target: Right_Hippocampus
 Optimization: max
-Comparison: mapped vs optimized
 
-Study Design: Within-subjects comparison
-Variables Analyzed: ROI_Mean, ROI_Max, ROI_Focality
-
-RESULTS:
-------------------------------
-ROI_MEAN: higher in condition B (0.015 = +6.0% = +0.30 SD)
-  p = 0.255 (t-test), Cohen's d = 0.19 - Not significant
-  Data: Normal (used t-test)
-
-ROI_MAX: higher in condition B (0.025 = +5.8% = +0.25 SD)
-  p = 0.332 (t-test), Cohen's d = 0.16 - Not significant
-  Data: Normal (used t-test)
-
-ROI_FOCALITY: higher in condition B (0.042 = +3.2% = +0.18 SD)
-  p = 0.443 (t-test), Cohen's d = 0.13 - Not significant
-  Data: Normal (used t-test)

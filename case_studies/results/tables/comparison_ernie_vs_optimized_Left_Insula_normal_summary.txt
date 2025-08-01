@@ -1,24 +1,7 @@
 STATISTICAL ANALYSIS REPORT
 ==================================================
 
-Analysis Type: Comparison
+Analysis Type: pairwise
 Target: Left_Insula
 Optimization: normal
-Comparison: ernie vs optimized
 
-Study Design: Within-subjects comparison
-Variables Analyzed: Normal_Mean, Normal_Max, Normal_Focality
-
-RESULTS:
-------------------------------
-NORMAL_MEAN: higher in condition B (0.010 = +4.7% = +0.37 SD)
-  p = 0.000 (t-test), Cohen's d = 1.45 - **SIGNIFICANT**
-  Data: Normal (used t-test)
-
-NORMAL_MAX: higher in condition B (0.021 = +5.4% = +0.41 SD)
-  p = 0.000 (t-test), Cohen's d = 0.90 - **SIGNIFICANT**
-  Data: Normal (used t-test)
-
-NORMAL_FOCALITY: lower in condition B (-0.078 = -3.3% = -0.59 SD)
-  p = 0.003 (t-test), Cohen's d = -0.53 - **SIGNIFICANT**
-  Data: Normal (used t-test)

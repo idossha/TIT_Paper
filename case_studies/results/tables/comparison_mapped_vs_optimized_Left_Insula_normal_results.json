@@ -1,29 +1,10 @@
 {
-  "analysis_info": {
-    "analysis_type": "comparison",
-    "comparison": "mapped_vs_optimized",
-    "target": "Left_Insula",
-    "optimization_type": "normal",
-    "condition_a": "mapped",
-    "condition_b": "optimized",
-    "timestamp": "2025-07-30T19:57:45.036048",
-    "n_participants": 74
-  },
-  "data_quality": {
-    "n_participants": 74,
-    "missing_values": {
-      "Subject_ID": 0,
-      "ROI_Mean": 0,
-      "ROI_Max": 0,
-      "Normal_Mean": 0,
-      "Normal_Max": 0,
-      "Normal_Focality": 0,
-      "condition": 0
-    },
-    "duplicates": "0",
-    "numeric_columns": []
-  },
-  "statistical_results": {
+  "analysis_type": "pairwise_comparisons",
+  "target": "Left_Insula",
+  "optimization_type": "normal",
+  "condition_a": "mapped",
+  "condition_b": "optimized",
+  "comparison_results": {
     "Normal_Mean": {
       "diff": 0.009579351351351378,
       "percent_change": 4.4310360045116095,
@@ -133,5 +114,5 @@
       }
     }
   },
-  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: normal\nComparison: mapped vs optimized\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: Normal_Mean, Normal_Max, Normal_Focality\n\nRESULTS:\n------------------------------\nNORMAL_MEAN: higher in condition B (0.010 = +4.4% = +0.36 SD)\n  p = 0.000 (t-test), Cohen's d = 1.28 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_MAX: higher in condition B (0.007 = +1.9% = +0.16 SD)\n  p = 0.016 (t-test), Cohen's d = 0.42 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nNORMAL_FOCALITY: higher in condition B (0.021 = +0.9% = +0.13 SD)\n  p = 0.117 (Wilcoxon), r = 0.26 - Not significant\n  Data: Non-normal (used Wilcoxon)\n"
+  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: pairwise\nTarget: Left_Insula\nOptimization: normal\n\n"
 }

@@ -1,29 +1,10 @@
 {
-  "analysis_info": {
-    "analysis_type": "comparison",
-    "comparison": "ernie_vs_optimized",
-    "target": "Left_Insula",
-    "optimization_type": "max",
-    "condition_a": "ernie",
-    "condition_b": "optimized",
-    "timestamp": "2025-07-30T19:57:40.684212",
-    "n_participants": 74
-  },
-  "data_quality": {
-    "n_participants": 74,
-    "missing_values": {
-      "Subject_ID": 0,
-      "ROI_Mean": 0,
-      "ROI_Max": 0,
-      "Normal_Mean": 0,
-      "Normal_Max": 0,
-      "ROI_Focality": 0,
-      "condition": 0
-    },
-    "duplicates": "0",
-    "numeric_columns": []
-  },
-  "statistical_results": {
+  "analysis_type": "pairwise_comparisons",
+  "target": "Left_Insula",
+  "optimization_type": "max",
+  "condition_a": "ernie",
+  "condition_b": "optimized",
+  "comparison_results": {
     "ROI_Mean": {
       "diff": 0.012523378378378469,
       "percent_change": 4.023787818343115,
@@ -133,5 +114,5 @@
       }
     }
   },
-  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Left_Insula\nOptimization: max\nComparison: ernie vs optimized\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: ROI_Mean, ROI_Max, ROI_Focality\n\nRESULTS:\n------------------------------\nROI_MEAN: higher in condition B (0.013 = +4.0% = +0.33 SD)\n  p = 0.000 (t-test), Cohen's d = 1.20 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nROI_MAX: higher in condition B (0.020 = +4.5% = +0.39 SD)\n  p = 0.000 (t-test), Cohen's d = 0.84 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n\nROI_FOCALITY: lower in condition B (-0.002 = -0.1% = -0.02 SD)\n  p = 0.420 (Wilcoxon), r = 0.14 - Not significant\n  Data: Non-normal (used Wilcoxon)\n"
+  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: pairwise\nTarget: Left_Insula\nOptimization: max\n\n"
 }

@@ -1,27 +1,10 @@
 {
-  "analysis_info": {
-    "analysis_type": "comparison",
-    "comparison": "ernie_vs_mapped",
-    "target": "Right_Hippocampus",
-    "optimization_type": "max",
-    "condition_a": "ernie",
-    "condition_b": "mapped",
-    "timestamp": "2025-07-30T19:57:47.031872",
-    "n_participants": 74
-  },
-  "data_quality": {
-    "n_participants": 74,
-    "missing_values": {
-      "Subject_ID": 0,
-      "ROI_Mean": 0,
-      "ROI_Max": 0,
-      "ROI_Focality": 0,
-      "condition": 0
-    },
-    "duplicates": "0",
-    "numeric_columns": []
-  },
-  "statistical_results": {
+  "analysis_type": "pairwise_comparisons",
+  "target": "Right_Hippocampus",
+  "optimization_type": "max",
+  "condition_a": "ernie",
+  "condition_b": "mapped",
+  "comparison_results": {
     "ROI_Mean": {
       "diff": -0.00037351351351344597,
       "percent_change": -0.14552995068511757,
@@ -131,5 +114,5 @@
       }
     }
   },
-  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: Comparison\nTarget: Right_Hippocampus\nOptimization: max\nComparison: ernie vs mapped\n\nStudy Design: Within-subjects comparison\nVariables Analyzed: ROI_Mean, ROI_Max, ROI_Focality\n\nRESULTS:\n------------------------------\nROI_MEAN: lower in condition B (-0.000 = -0.1% = -0.01 SD)\n  p = 0.972 (t-test), Cohen's d = -0.01 - Not significant\n  Data: Normal (used t-test)\n\nROI_MAX: higher in condition B (0.005 = +1.2% = +0.06 SD)\n  p = 0.815 (t-test), Cohen's d = 0.04 - Not significant\n  Data: Normal (used t-test)\n\nROI_FOCALITY: lower in condition B (-0.100 = -7.1% = -0.62 SD)\n  p = 0.019 (t-test), Cohen's d = -0.40 - **SIGNIFICANT**\n  Data: Normal (used t-test)\n"
+  "summary_report": "STATISTICAL ANALYSIS REPORT\n==================================================\n\nAnalysis Type: pairwise\nTarget: Right_Hippocampus\nOptimization: max\n\n"
 }
